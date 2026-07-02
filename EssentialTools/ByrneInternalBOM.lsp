@@ -114,23 +114,23 @@
 
                 (setq bomEntry
 
-                    (append
+    (list
 
-                        catalogEntry
+        (cons 'item item)
 
-                        (list
+        (assoc 'blockName catalogEntry)
 
-                            (cons 'item item)
+        (assoc 'description catalogEntry)
 
-                            (cons 'qty qty)
+        (assoc 'partNumber catalogEntry)
 
-                            (cons 'instances instances)
+        (cons 'qty qty)
 
-                        )
+        (cons 'instances instances)
 
-                    )
+    )
 
-                )
+)
 
                 (setq bom
                       (append bom

@@ -24,87 +24,7 @@
     (partNumber . "XXXX-XXX")
 )
 
-;=================================================
-; ACCESSORIES
-;=================================================
 
-(
-    (blockName  . "AXIL_X")
-    (description . "AXIL X")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "DEAN")
-    (description . "DEAN")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "DEAN_3_WINDOW")
-    (description . "DEAN 3 WINDOW")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "ELLORAB5WIN")
-    (description . "ELLORA B 5 WINDOW")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "ELLORAB6WIN")
-    (description . "ELLORA B 6 WINDOW")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "MHO")
-    (description . "MHO")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "MINITAP")
-    (description . "MINITAP")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "NACRE")
-    (description . "NACRE")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "NACRE_2_PORT")
-    (description . "NACRE 2 WINDOW")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "NAICA")
-    (description . "NAICA")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "RIO")
-    (description . "RIO")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "START")
-    (description . "START")
-    (partNumber . "XXXX-XXX")
-)
-
-(
-    (blockName  . "START_Z_3_WIN")
-    (description . "START Z 3 WINDOWS")
-    (partNumber . "XXXX-XXX")
-)
 
 ;=================================================
 ; 8 TRAC
@@ -197,6 +117,88 @@
 (
     (blockName  . "SMART_INFEED")
     (description . "IQ 2.0 CONTROL BOX")
+    (partNumber . "XXXX-XXX")
+)
+  
+  ;=================================================
+; ACCESSORIES
+;=================================================
+
+(
+    (blockName  . "AXIL_X")
+    (description . "AXIL X")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "DEAN")
+    (description . "DEAN")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "DEAN_3_WINDOW")
+    (description . "DEAN 3 WINDOW")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "ELLORAB5WIN")
+    (description . "ELLORA B 5 WINDOW")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "ELLORAB6WIN")
+    (description . "ELLORA B 6 WINDOW")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "MHO")
+    (description . "MHO")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "MINITAP")
+    (description . "MINITAP")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "NACRE")
+    (description . "NACRE")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "NACRE_2_PORT")
+    (description . "NACRE 2 WINDOW")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "NAICA")
+    (description . "NAICA")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "RIO")
+    (description . "RIO")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "START")
+    (description . "START")
+    (partNumber . "XXXX-XXX")
+)
+
+(
+    (blockName  . "START_Z_3_WIN")
+    (description . "START Z 3 WINDOWS")
     (partNumber . "XXXX-XXX")
 )
 
