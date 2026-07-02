@@ -2,7 +2,7 @@
 ; ByrneTools.lsp
 ; Byrne México CAD Automation Library
 ;
-; Version: Scripting_v5.1
+; Version: Scripting_v8.1
 ; Author: Sebastián Lazalde + ChatGPT
 ; Date: June 2026
 ;
