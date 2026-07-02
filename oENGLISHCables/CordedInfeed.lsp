@@ -1,7 +1,7 @@
 (defun c:CORDPLD (/ oldPlineWid cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_POWER_INF" "3")
+  (ByrneStart "BYRNE_POWER_INF" "0, 255, 0")
 
   ;; Guardar ancho actual
   (setq oldPlineWid (getvar "PLINEWID"))

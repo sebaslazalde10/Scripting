@@ -1,22 +1,21 @@
-(defun c:ROLLEDCONNECTORCABLE (/ startPt)
+(defun c:P3C2SIDE (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_ROLLED_CONNECTOR" "255, 255, 255")
+  (ByrneStart "BYRNE_P3C2SIDE" "242, 103, 34")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota ROLLED_CONNECTOR: ")
+  (prompt "\nInserta y rota RECEPTACLE C2: ")
 
-  (ByrnePurgeBlock "ROLLED_CONNECTOR")
+  (ByrnePurgeBlock "C2_RECEPTACLE")
 
   (ByrneInsertBlock
-    "ROLLED_CONNECTOR"
+    "C2_RECEPTACLE"
     pause
   )
 
-  
  
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -24,7 +23,7 @@
 
   (ByrneEnd)
 
-  (princ "\nCable insertado correctamente.")
+  (princ "\n RECEPTACLE C2 insertado correctamente.")
   (princ)
 
 )

@@ -1,7 +1,7 @@
-(defun c:3WAYJUMPER (/ startPt cableEnt endPt)
+(defun c:PASSTHRUCABLE (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_3_WAY_JUMP" "39,118,187")
+  (ByrneStart "BYRNE_PASSTHRU" "39,118,187")
 
 ;; =========================
   ;; INSERTAR CONECTOR INICIAL
@@ -48,11 +48,11 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "BLUEJUMPEREND"
+    "BLUEJUMPERFINISH"
   )
 
   (ByrneInsertBlock
-    "BLUEJUMPEREND"
+    "BLUEJUMPERFINISH"
     endPt
   )
 
@@ -61,6 +61,6 @@
    ;;Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\n3 WAY JUMPER creado correctamente.")
+  (princ "\n PASSTHRU CABLE creado correctamente.")
   (princ)
 )

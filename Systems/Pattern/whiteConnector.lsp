@@ -1,7 +1,7 @@
 (defun c:WHITEBLOCKACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_WHITE_BLOCK" "30")
+  (ByrneStart "BYRNE_WHITE_BLOCK" "255, 255, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

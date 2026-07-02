@@ -1,18 +1,18 @@
-(defun c:3WAYJUMPER (/ startPt cableEnt endPt)
+(defun c:NGJUMP (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_3_WAY_JUMP" "39,118,187")
+  (ByrneStart "BYRNE_JUMPER_ORANGE" "242, 103, 34")
 
 ;; =========================
   ;; INSERTAR CONECTOR INICIAL
   ;; =========================
 (setq startPt (getpoint "\nSelecciona el punto de inicio: "))
    (ByrnePurgeBlock
-    "BLUEJUMPERBEGIN"
+    "newJumperOrangeEndBegin"
   )
 
   (ByrneInsertBlock
-    "BLUEJUMPERBEGIN"
+    "newJumperOrangeEndBegin"
     startPt
   )
 
@@ -20,7 +20,7 @@
   ;; =========================
   ;; DIBUJAR CABLE
   ;; =========================
-
+  
   (command "_.PLINE"
          startPt
          "_W"
@@ -48,19 +48,19 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "BLUEJUMPEREND"
+    "newJumperOrangeEndEnd"
   )
 
   (ByrneInsertBlock
-    "BLUEJUMPEREND"
+    "newJumperOrangeEndEnd"
     endPt
   )
 
-  ;;(ByrneAddBOM "BLUE JUMPER" 1)
+  ;;(ByrneAddBOM "COMMERCIAL_NAME" 1)
 
    ;;Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\n3 WAY JUMPER creado correctamente.")
+  (princ "\n JUMPER creado correctamente.")
   (princ)
 )

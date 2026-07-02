@@ -1,7 +1,7 @@
 (defun c:GREYBLOCKACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_GREYBLOCK" "30")
+  (ByrneStart "BYRNE_GREYBLOCK" "99, 100, 102")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

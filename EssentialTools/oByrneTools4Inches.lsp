@@ -27,7 +27,7 @@
   (if (not (tblsearch "LAYER" layerName))
     (command "_.-LAYER"
              "_Make" layerName
-             "_Color" colorIndex layerName
+             "_Color" "TrueColor" colorIndex layerName
              ""
     )
     (command "_.-LAYER"

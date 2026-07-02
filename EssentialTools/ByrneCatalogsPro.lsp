@@ -18,11 +18,20 @@
     (partNumber . "XXXX-XXX")
 )
 
+  
 (
-    (blockName  . "JumperConnector")
-    (description . "JUMPER")
+    (blockName  . "CordedEndConnector")
+    (description . "XX\" POWER INFEED")
     (partNumber . "XXXX-XXX")
 )
+  
+(
+    (blockName  . "newJumperOrangeEndEnd")
+    (description . "XX\" JUMPER")
+    (partNumber . "XXXX-XXX")
+)
+  
+
 
 
 
@@ -35,9 +44,21 @@
     (description . "DOUBLE BLOCK")
     (partNumber . "BE08290-3-2-30-00")
 )
+  
+(
+    (blockName  . "8TRAC_DOUBLE_BLOCK_SIDE_REALISTIC")
+    (description . "DOUBLE BLOCK")
+    (partNumber . "XXXX-XXX")
+)
 
 (
     (blockName  . "8TRAC_RECEPTACLE_C1_UP")
+    (description . "DUPLEX RECEPTACLE C1")
+    (partNumber . "XXXX-XXX")
+)
+  
+(
+    (blockName  . "8TRAC_RECEPTACLE_C1_SIDE")
     (description . "DUPLEX RECEPTACLE C1")
     (partNumber . "XXXX-XXX")
 )
@@ -59,10 +80,16 @@
     (description . "DUPLEX RECEPTACLE C4")
     (partNumber . "XXXX-XXX")
 )
+  
+(
+    (blockName  . "8TRAC_RECEPTACLE_C4_SIDE")
+    (description . "DUPLEX RECEPTACLE C4")
+    (partNumber . "XXXX-XXX")
+)
 
 (
     (blockName  . "MMJumpEnd")
-    (description . "M/M JUMPER")
+    (description . "XX\" M/M JUMPER")
     (partNumber . "XXXX-XXX")
 )
 
@@ -70,15 +97,30 @@
 ; PHASE 3
 ;=================================================
 
+
+  
 (
-    (blockName  . "BLUEJUMPERBEGIN")
-    (description . "F/F/M 3-WAY PASS THRU")
+    (blockName  . "BLUEJUMPERFINISH")
+    (description . "XX\" F/F PASS THRU")
+    (partNumber . "XXXX-XXX")
+)
+  
+(
+    (blockName  . "BLUEJUMPEREND")
+    (description . "XX\" F/F/M 3-WAY PASS THRU")
+    (partNumber . "XXXX-XXX")
+)
+  
+(
+    (blockName  . "DOUBLEBLOCKPHASE3")
+    (description . "PHASE 3 DOUBLE BLOCK")
     (partNumber . "XXXX-XXX")
 )
 
 ;=================================================
 ; PATTERN
 ;=================================================
+  
 
 (
     (blockName  . "WHITE_BLOCK")
@@ -157,6 +199,12 @@
 (
     (blockName  . "MHO")
     (description . "MHO")
+    (partNumber . "XXXX-XXX")
+)
+  
+(
+    (blockName  . "MIKI_2PORTS_UM")
+    (description . "XX\" MIKI")
     (partNumber . "XXXX-XXX")
 )
 

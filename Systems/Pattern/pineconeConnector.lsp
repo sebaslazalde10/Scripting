@@ -1,7 +1,7 @@
 (defun c:PINECONEBLOCKACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_PINECONE_BLOCK" "30")
+  (ByrneStart "BYRNE_PINECONE_BLOCK" "105, 77, 53")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
