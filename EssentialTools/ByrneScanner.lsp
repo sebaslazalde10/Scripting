@@ -209,6 +209,172 @@
 
 )
 
+;=================================================
+; ByrneGetInsertionPoint
+;
+; Returns the insertion point of a block reference.
+;=================================================
+
+(defun ByrneGetInsertionPoint (blockEname / dxfData)
+
+    (setq dxfData (entget blockEname))
+
+    (cdr (assoc 10 dxfData))
+
+)
+
+;=================================================
+; ByrnePointInsideWindow
+;
+; Returns T if the point is inside the extents.
+;=================================================
+
+(defun ByrnePointInsideWindow (point extents
+                                / xmin ymin xmax ymax)
+
+    (setq xmin (nth 0 extents))
+    (setq ymin (nth 1 extents))
+    (setq xmax (nth 2 extents))
+    (setq ymax (nth 3 extents))
+
+    (and
+        (>= (car point) xmin)
+        (<= (car point) xmax)
+        (>= (cadr point) ymin)
+        (<= (cadr point) ymax)
+    )
+
+)
+
+;=================================================
+; ByrneScanViewport
+;
+; Returns a list of INSERT entities inside the viewport.
+;=================================================
+
+(defun ByrneScanViewport (viewportEname
+                          / extents
+                            ss
+                            i
+                            blockEname
+                            blockData
+                            insertPoint
+                            result)
+
+    (setq result nil)
+
+    (setq extents
+          (ByrneGetViewportExtents viewportEname))
+
+    (setq ss
+          (ssget "_X" '((0 . "INSERT"))))
+
+    (if ss
+
+        (progn
+
+            (setq i 0)
+
+            (while (< i (sslength ss))
+
+                (setq blockEname
+                      (ssname ss i))
+              
+                (setq blockData
+                      (entget blockEname))
+
+                (setq insertPoint
+                      (ByrneGetInsertionPoint blockEname))
+
+                (if (and
+
+        (/= (cdr (assoc 67 blockData)) 1)
+
+        (ByrnePointInsideWindow
+            insertPoint
+            extents
+        )
+
+    )
+
+    (setq result
+          (cons blockEname result))
+
+)
+
+                (setq i (1+ i))
+
+            )
+
+        )
+
+    )
+
+    (reverse result)
+
+)
+
+;=================================================
+; DEBUG COMMAND
+;=================================================
+
+(defun c:BYRNESCAN (/ viewportObj viewportEname blocks blockData)
+
+    (setq viewportObj
+          (ByrneGetViewport))
+
+    (if viewportObj
+
+        (progn
+
+            (setq viewportEname
+                  (vlax-vla-object->ename viewportObj))
+
+            (setq blocks
+                  (ByrneScanViewport viewportEname))
+
+            (princ
+                (strcat
+                    "\nBlocks found: "
+                    (itoa (length blocks))
+                )
+            )
+
+            (foreach block blocks
+
+    (setq blockData (entget block))
+
+    (princ
+        (strcat
+            "\n--------------------------------"
+            "\nName: "
+            (cdr (assoc 2 blockData))
+            "\nHandle: "
+            (cdr (assoc 5 blockData))
+            "\nInsertion: "
+            (vl-princ-to-string (cdr (assoc 10 blockData)))
+        )
+    )
+
+    ;; Mostrar si está en Model o Paper Space
+    (if (= (cdr (assoc 67 blockData)) 1)
+
+        (princ "\nSpace: PAPER")
+
+        (princ "\nSpace: MODEL")
+
+    )
+
+)
+
+        )
+
+    )
+
+    (princ)
+
+)
+
 
 ;=================================================
 ; DEBUG COMMANDS
