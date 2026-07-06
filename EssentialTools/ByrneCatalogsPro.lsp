@@ -14,7 +14,7 @@
 
 (
     (blockName  . "hardwiredPowerInfeedConnectorEnd_SOURCE")
-    (description . "HARDWIRED POWER INFEED")
+    (description . "HARDWIRE POWER INFEED")
     (partNumber . "XXXX-XXX")
 )
 
@@ -68,9 +68,21 @@
     (description . "DUPLEX RECEPTACLE C2")
     (partNumber . "XXXX-XXX")
 )
+  
+(
+    (blockName  . "8TRAC_RECEPTACLE_C2_SIDE")
+    (description . "DUPLEX RECEPTACLE C2")
+    (partNumber . "XXXX-XXX")
+)
 
 (
     (blockName  . "8TRAC_RECEPTACLE_C3_UP")
+    (description . "DUPLEX RECEPTACLE C3")
+    (partNumber . "XXXX-XXX")
+)
+  
+  (
+    (blockName  . "8TRAC_RECEPTACLE_C3_SIDE")
     (description . "DUPLEX RECEPTACLE C3")
     (partNumber . "XXXX-XXX")
 )
@@ -114,6 +126,18 @@
 (
     (blockName  . "DOUBLEBLOCKPHASE3")
     (description . "PHASE 3 DOUBLE BLOCK")
+    (partNumber . "XXXX-XXX")
+)
+  
+(
+    (blockName  . "C1_RECEPTACLE")
+    (description . "DUPLEX RECEPTACLE C1")
+    (partNumber . "XXXX-XXX")
+)
+  
+(
+    (blockName  . "C2_RECEPTACLE")
+    (description . "DUPLEX RECEPTACLE C2")
     (partNumber . "XXXX-XXX")
 )
 
