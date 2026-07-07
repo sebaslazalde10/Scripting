@@ -404,3 +404,68 @@
     (princ)
 
 )
+
+
+;=================================================
+; ByrneScanModel
+;
+; Scans the complete Model Space and returns every
+; INSERT entity found.
+;
+; Returns:
+;   List of block enames.
+;=================================================
+
+(defun ByrneScanModel (/ ss i result blockEname blockData)
+
+    (setq result nil)
+
+    (setq ss
+          (ssget "_X" '((0 . "INSERT")))
+    )
+
+    (if ss
+
+        (progn
+
+            (setq i 0)
+
+            (while (< i (sslength ss))
+
+                (setq blockEname
+                      (ssname ss i))
+
+                (setq blockData
+                      (entget blockEname))
+
+                ;; Ignore Paper Space inserts
+                (if (/= (cdr (assoc 67 blockData)) 1)
+
+                    (setq result
+                          (cons blockEname result))
+                )
+
+                (setq i (1+ i))
+
+            )
+
+        )
+
+    )
+
+    (reverse result)
+
+)
+
+;=================================================
+; ByrneResolveModel
+;
+; Resolves every Byrne component found in the
+; complete Model Space.
+;
+; Returns:
+;   List of resolved Byrne components.
+;=================================================
+
+
+

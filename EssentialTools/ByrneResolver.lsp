@@ -218,6 +218,35 @@
 
 )
 
+;=================================================
+; ByrneResolveModel
+;
+; Resolves all INSERTs from the Model Space into
+; Byrne Components.
+;=================================================
+(defun ByrneResolveModel (/ inserts components component)
+    (setq components nil)
+    
+    ;; 1. Obtener la LISTA de todas las entidades (enames) del Model Space
+    (setq inserts (ByrneScanModel))
+    
+    ;; 2. Validar que la lista no esté vacía e iterar sobre ella
+    (if inserts
+        (foreach insert inserts
+            ;; Resolver bloque por bloque (pasando una única entidad)
+            (setq component (ByrneResolveComponent insert))
+            
+            ;; Si pertenece al catálogo de Byrne, agregarlo a la lista de componentes
+            (if component
+                (setq components (cons component components))
+            )
+        )
+    )
+    
+    ;; 3. Retornar la lista final estructurada y filtrada para ByrneBuildInternalBOM
+    (reverse components)
+)
+
 (defun c:TESTCOMPONENTS (/ viewportObj
                            viewportEname
                            components)
