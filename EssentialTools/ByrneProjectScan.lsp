@@ -2,7 +2,7 @@
 ; ByrneProjectScan.lsp
 ; Byrne México CAD Automation Library
 ;
-; Version: ProjectScan_v1.0
+; Version: ProjectScan_v9.0
 ;
 ; Global project scan used by:
 ;
