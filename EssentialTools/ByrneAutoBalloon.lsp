@@ -111,3 +111,87 @@
     )
     (princ)
 )
+
+;=================================================
+; BalloonsUpAndDownByrne
+; Distribución Zig-Zag para evitar colisiones
+;=================================================
+
+(defun BalloonsUpAndDownByrne (/ doc viewportObj viewportEname vpId components project balloonData 
+                                 msPt dcsPt psPt item blockName sortedBalloons data compX toggle offset)
+
+    (vl-load-com)
+    (setq viewportObj (ByrneGetViewport))
+
+    (if viewportObj
+        (progn
+            (setq viewportEname (vlax-vla-object->ename viewportObj))
+            (setq vpId (cdr (assoc 69 (entget viewportEname))))
+            (setq components (ByrneResolveComponents viewportEname))
+
+            ;; 1. Obtener BOM
+            (setq project (ByrneGetProjectScan))
+            (if (not project) (setq project (ByrneBuildProjectScan)))
+
+            (if components
+                (progn
+                    (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+                    
+                    ;; 2. Traducción de coordenadas a PaperSpace
+                    (vla-put-MSpace doc :vlax-true)
+                    (setvar "CVPORT" vpId)
+                    (setq balloonData nil)
+                    
+                    (foreach component components
+                        (setq msPt (cdr (assoc 'insertPoint component)))
+                        (setq dcsPt (trans msPt 0 2))
+                        (setq psPt (trans dcsPt 2 3))
+                        (setq item (if project (ByrneGetGlobalItemNumber (cdr (assoc 'blockName component)) project) nil))
+                        (setq balloonData (cons (cons psPt item) balloonData))
+                    )
+                    (vla-put-MSpace doc :vlax-false)
+
+                    ;; 3. Ordenar de izquierda a derecha
+                    (setq sortedBalloons (vl-sort balloonData '(lambda (a b) (< (car (car a)) (car (car b))))))
+
+                    ;; 4. Lógica de Zig-Zag
+                    ;; toggle: 1 (Arriba), -1 (Abajo)
+                    ;; offset: 0.12 (distancia vertical)
+                    (setq toggle 1
+                          offset 0.12
+                          lastX -999.0)
+
+                    (foreach data sortedBalloons
+                        (setq psPt (car data)
+                              item (cdr data)
+                              compX (car psPt))
+
+                        ;; Si la distancia horizontal es menor a 0.15 (umbral de colisión), hacemos Zig-Zag
+                        (if (< (- compX lastX) 0.15)
+                            (progn
+                                (setq currentOffsetY (* toggle offset))
+                                (setq toggle (* toggle -1)) ;; Invertimos para el siguiente
+                            )
+                            ;; Si no hay colisión, reset al estándar (Arriba)
+                            (progn
+                                (setq currentOffsetY offset)
+                                (setq toggle -1) ;; El siguiente debería ir abajo si está cerca
+                            )
+                        )
+
+                        ;; Dibujar
+                        (ByrneInsertBalloon psPt item 0.0 currentOffsetY)
+                        
+                        (setq lastX compX)
+                    )
+                    (vla-Regen doc 0)
+                    (princ "\nDistribución Zig-Zag completada.")
+                )
+            )
+        )
+    )
+    (princ)
+)
+
+; Alias para llamar al comando fácilmente
+(defun c:UPANDOWN () (BalloonsUpAndDownByrne))
