@@ -1,7 +1,7 @@
 (defun c:DEAN3WINACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_DEAN_3_WIN" "30")
+  (ByrneStart "BYRNE_DEAN_3_WIN" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

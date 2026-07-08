@@ -1,7 +1,7 @@
 (defun c:BLACKBLOCKACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_BLACK_BLOCK" "0, 0, 0 ")
+  (ByrneStart "BYRNE_BLACK_BLOCK" "0, 0, 0")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

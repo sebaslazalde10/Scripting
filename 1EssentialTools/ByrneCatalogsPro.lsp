@@ -24,7 +24,7 @@
 (
     (blockName  . "CordedEndConnector")
     (description . "XX\" POWER INFEED")
-    (partNumber . "XXXX-XXX")
+    (partNumber . "PATTERN: BE07590-E-72 or BE07590-E-SB72")
     (symbolBlock . "SYM_CORD_CONNECTOR") ;;OK
     (blockScale . 1.00)
 )
@@ -32,9 +32,9 @@
 (
     (blockName  . "newJumperOrangeEndEnd")
     (description . "XX\" JUMPER")
-    (partNumber . "XXXX-XXX")
+    (partNumber . "PATTERN: BE07592-E-XX")
     (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
-    (blockScale . 0.06)
+    (blockScale . 1.00)
 )
   
 
@@ -188,14 +188,14 @@
     (blockName  . "WHITE_BLOCK")
     (description . "WHITE CONNECTION BLOCK")
     (partNumber . "XXXX-XXX")
-    (symbolBlock . "WHITE_BLOCK")
+    (symbolBlock . "BE07591-FFE")
     (blockScale . 0.06)
 )
 
 (
     (blockName  . "PINECONE_BLOCK")
     (description . "PINECONE CONNECTION BLOCK")
-    (partNumber . "XXXX-XXX")
+    (partNumber . "BE07591-FFF")
     (symbolBlock . "PINECONE_BLOCK")
     (blockScale . 0.06)
 )
@@ -203,7 +203,7 @@
 (
     (blockName  . "BLACK_BLOCK")
     (description . "BLACK CONNECTION BLOCK")
-    (partNumber . "XXXX-XXX")
+    (partNumber . "BE07591-E")
     (symbolBlock . "BLACK_BLOCK")
     (blockScale . 0.06)
 )
@@ -211,7 +211,7 @@
 (
     (blockName  . "GREY_BLOCK")
     (description . "GREY CONNECTION BLOCK")
-    (partNumber . "XXXX-XXX")
+    (partNumber . "BE07591-EF")
     (symbolBlock . "GREY_BLOCK")
     (blockScale . 0.06)
 )
