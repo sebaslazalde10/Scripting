@@ -1,7 +1,7 @@
 (defun c:8TRAC_SINGLE_HALFBLOCK_UP_REALISTICACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_8TRAC_SINGLE_HALFBLOCK_UP_REALISTIC" "30")
+  (ByrneStart "BYRNE_8TRAC_SINGLE_HALFBLOCK_UP_REALISTIC" "255, 255, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

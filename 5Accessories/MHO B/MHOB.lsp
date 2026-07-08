@@ -1,7 +1,7 @@
 (defun c:MHOBACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_MHO_B" "30")
+  (ByrneStart "BYRNE_MHO_B" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

@@ -1,7 +1,7 @@
 (defun c:AXIL_XACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_AXIL_X" "255, 255, 255")
+  (ByrneStart "BYRNE_AXIL_X" "255, 0, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

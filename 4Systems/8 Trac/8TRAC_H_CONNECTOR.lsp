@@ -1,7 +1,7 @@
 (defun c:8TRAC_H_CONNECTORACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_8TRAC_H_CONNECTOR" "30")
+  (ByrneStart "BYRNE_8TRAC_H_CONNECTOR" "255, 0, 0")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

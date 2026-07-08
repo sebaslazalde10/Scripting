@@ -1,7 +1,7 @@
 (defun c:RC4SIDEACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_8TRAC_RECEPTACLE_C4_SIDE" "255, 255, 255")
+  (ByrneStart "BYRNE_8TRAC_RECEPTACLE_C4_SIDE" "255, 127, 0")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

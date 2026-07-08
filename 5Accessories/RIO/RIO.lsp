@@ -1,7 +1,7 @@
 (defun c:RIOACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_RIO" "30")
+  (ByrneStart "BYRNE_RIO" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

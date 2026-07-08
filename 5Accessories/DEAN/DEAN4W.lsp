@@ -1,7 +1,7 @@
 (defun c:DEAN4SURFACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_DEAN_4_W_IN_SURFACE" "30")
+  (ByrneStart "BYRNE_DEAN_4_W_IN_SURFACE" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

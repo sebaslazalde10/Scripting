@@ -3,7 +3,7 @@
 ; Inserta un Short Cord IQ
 ;=================================================
 
-(defun c:SHO ()
+(defun c:CORDAX ()
 
   ;; =========================
   ;; INSERTAR SHORT CORD

@@ -1,7 +1,7 @@
 (defun c:RC1UPACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_8TRAC_RECEPTACLE_C1_UP" "255, 255, 255")
+  (ByrneStart "BYRNE_8TRAC_RECEPTACLE_C1_UP" "255, 255, 0")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

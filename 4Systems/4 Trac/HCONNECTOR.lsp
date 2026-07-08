@@ -1,7 +1,7 @@
 (defun c:HCONNNACC (/ )
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_HCONNECTOR" "30")
+  (ByrneStart "BYRNE_HCONNECTOR" "255,0 ,0")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

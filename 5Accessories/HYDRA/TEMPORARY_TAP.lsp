@@ -1,7 +1,7 @@
 (defun c:TEMPORARYTAPACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_HYDRA" "30")
+  (ByrneStart "BYRNE_HYDRA" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

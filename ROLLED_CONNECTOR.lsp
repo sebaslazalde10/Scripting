@@ -1,7 +1,7 @@
 (defun c:ROLLEDCONNECTORCABLE (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_ROLLED_CONNECTOR" "255, 255, 255")
+  (ByrneStart "BYRNE_ROLLED_CONNECTOR" "0, 255, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

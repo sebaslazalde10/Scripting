@@ -1,7 +1,7 @@
 (defun c:ELLORAB6WINACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_ELLORA_B_6_WIN" "255, 255, 255")
+  (ByrneStart "BYRNE_ELLORA_B_6_WIN" "255, 0, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

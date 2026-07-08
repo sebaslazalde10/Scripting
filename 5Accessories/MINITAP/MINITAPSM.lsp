@@ -1,7 +1,7 @@
 (defun c:MINITAPKEYACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_MINITAP" "30")
+  (ByrneStart "BYRNE_MINITAP" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO

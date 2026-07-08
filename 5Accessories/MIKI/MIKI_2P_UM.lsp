@@ -1,7 +1,7 @@
 (defun c:MIKI2PSUMACC (/)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "MIKI_2PORTS_UM" "30")
+  (ByrneStart "MIKI_2PORTS_UM" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
