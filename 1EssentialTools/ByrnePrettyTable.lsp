@@ -1,345 +1,195 @@
 ;=================================================
-; ByrnePrettyTable.lsp
+; ByrneCorrectTable.lsp
 ; Byrne México CAD Automation Library
 ;
-; Version: PrettyTable_v1.0
-;
-; Creates a formatted BOM table from the
-; Byrne Internal BOM.
+; Version: CorrectTable_v5.0 (AutoFit Engine Locked)
 ;=================================================
 
 (vl-load-com)
 
 ;=================================================
-; BYRNEPRETTYTABLE
+; ByrneGetOrLoadBlockID
 ;=================================================
-
-(defun c:BYRNEPRETTYTABLE
-       (/ doc
-          currentSpace
-          insPt
-          rows
-          cols
-          row
-          tableObj
-          viewportObj
-          viewportEname
-          components
-          internalBOM
-          bomEntry)
-
-    ;;=========================================
-    ;; BUILD INTERNAL BOM
-    ;;=========================================
-
-    (setq viewportObj
-          (ByrneGetViewport))
-
-    (if (null viewportObj)
-
+(defun ByrneGetOrLoadBlockID (blkName / acad doc blocks blk blkID blockPath tempRef ms)
+    (setq acad (vlax-get-acad-object))
+    (setq doc (vla-get-ActiveDocument acad))
+    (setq blocks (vla-get-Blocks doc))
+    (setq blkID nil)
+    
+    (if (not (vl-catch-all-error-p (setq blk (vl-catch-all-apply 'vla-Item (list blocks blkName)))))
+        (setq blkID (vla-get-ObjectID blk))
         (progn
-            (princ "\nNo viewport selected.")
-            (princ)
-        )
-
-        (progn
-
-            (setq viewportEname
-                  (vlax-vla-object->ename viewportObj))
-
-            (setq components
-                  (ByrneResolveComponents viewportEname))
-
-            (setq internalBOM
-                  (ByrneBuildInternalBOM components))
-
-            (if (null internalBOM)
-
+            (setq blockPath (findfile (strcat blkName ".dwg")))
+            (if blockPath
                 (progn
-                    (princ "\nNo Byrne components found inside viewport.")
-                    (princ)
-                )
-
-                (progn
-
-                    ;;=========================================
-                    ;; INSERTION POINT
-                    ;;=========================================
-
-                    (setq insPt
-                          (getpoint "\nSelect insertion point for BOM table: "))
-
-                    ;;=========================================
-                    ;; TABLE SETTINGS
-                    ;;=========================================
-
-                    (setq rows (+ (length internalBOM) 2))
-                    (setq cols 4)
-
-                    (setq doc
-                          (vla-get-ActiveDocument
-                              (vlax-get-acad-object)))
-
-                    (setq currentSpace
-                          (if (= (getvar "CVPORT") 1)
-                              (vla-get-PaperSpace doc)
-                              (vla-get-ModelSpace doc)))
-
-                    (setq tableObj
-                          (vla-AddTable
-                              currentSpace
-                              (vlax-3d-point insPt)
-                              rows
-                              cols
-                              0.12
-                              1.0))
-
-                    ;;=========================================
-                    ;; REMOVE TITLE ROW
-                    ;;=========================================
-
-                    (vla-DeleteRows tableObj 0 1)
-
-                    ;;=========================================
-                    ;; TEXT HEIGHT
-                    ;;=========================================
-
-                    (vla-SetTextHeight tableObj 1 0.06)
-                    (vla-SetTextHeight tableObj 2 0.06)
-                    (vla-SetTextHeight tableObj 4 0.06)
-
-                    ;;=========================================
-                    ;; COLUMN WIDTHS
-                    ;;=========================================
-
-                    (vla-SetColumnWidth tableObj 0 0.35)
-                    (vla-SetColumnWidth tableObj 1 1.25)
-                    (vla-SetColumnWidth tableObj 2 1.25)
-                    (vla-SetColumnWidth tableObj 3 0.50)
-
-                    ;;=========================================
-                    ;; HEADERS
-                    ;;=========================================
-
-                    (vla-SetText tableObj 0 0 "ITEM")
-                    (vla-SetText tableObj 0 1 "SYMBOLOGY")
-                    (vla-SetText tableObj 0 2 "DESCRIPTION")
-                    (vla-SetText tableObj 0 3 "QTY")
-
-                    ;;=========================================
-                    ;; DATA
-                    ;;=========================================
-
-                    (setq row 1)
-
-                    (foreach bomEntry internalBOM
-
-                        (vla-SetText
-                            tableObj
-                            row
-                            0
-                            (itoa
-                                (cdr (assoc 'item bomEntry))
+                    (setq ms (vla-get-ModelSpace doc))
+                    (if (not (vl-catch-all-error-p (setq tempRef (vl-catch-all-apply 'vla-InsertBlock (list ms (vlax-3d-point 0 0 0) blockPath 1.0 1.0 1.0 0.0)))))
+                        (progn
+                            (vl-catch-all-apply 'vla-Delete (list tempRef))
+                            (if (not (vl-catch-all-error-p (setq blk (vl-catch-all-apply 'vla-Item (list blocks blkName)))))
+                                (setq blkID (vla-get-ObjectID blk))
                             )
                         )
-
-                        ;; Por ahora la dejamos vacía.
-                        ;; Más adelante aquí insertaremos
-                        ;; el símbolo dinámicamente.
-                        (vla-SetText
-                            tableObj
-                            row
-                            1
-                            ""
-                        )
-
-                        (vla-SetText
-                            tableObj
-                            row
-                            2
-                            (cdr
-                                (assoc 'description bomEntry))
-                        )
-
-                        (vla-SetText
-                            tableObj
-                            row
-                            3
-                            (itoa
-                                (cdr
-                                    (assoc 'qty bomEntry))
-                            )
-                        )
-
-                        (setq row (1+ row))
-
                     )
-
-                    (princ "\nByrne Pretty Table created successfully.")
-
                 )
-
             )
-
         )
-
     )
-
-    (princ)
-
+    blkID
 )
 
 ;=================================================
 ; BYRNECORRECTTABLE
-; Genera una tabla de materiales basada en el escaneo
-; global (*ByrneProjectScan*), mostrando solo los elementos
-; del viewport pero reteniendo su índice e identidad global.
 ;=================================================
 
-(defun c:BYRNECORRECTTABLE 
-       (/ doc currentSpace insPt rows cols row tableObj
-          viewportObj viewportEname components localQty
-          viewportBOM bName globalItem)
+(defun c:BYRNECORRECTTABLE
+       (/ doc currentSpace insPt rows cols row col tableObj
+          viewportObj viewportEname components internalBOM
+          bomEntry rawBlockName catEntry symbolBlock blkID
+          cwItem cwSymbol cwDesc cwQty
+          rHeight textHeight)
 
-    (ByrneStart "BYRNE_PROJECT_BOMS" "0, 0, 0")
-    ;; 1. Garantizar la existencia del Master BOM Global
-    (princ "\n[INFO] Actualizando escaneo global del modelo...")
-    (ByrneBuildProjectScan)
+    ;; =======================================================
+    ;; CONFIGURACIÓN RÍGIDA (En Centímetros)
+    ;; Ancho total = ~11.5 cm (Perfecto para hoja de 21.5 cm)
+    ;; =======================================================
+    (setq cwItem 0.35)      ; Ancho columna ITEM
+    (setq cwSymbol 1.25)    ; Ancho columna SYMBOL
+    (setq cwDesc 1.25)      ; Ancho columna DESCRIPTION
+    (setq cwQty 0.5)       ; Ancho columna QTY
 
-    ;; 2. Selección del Viewport
+    (setq rHeight 0.36)     ; Altura de fila (Suficiente para el símbolo)
+    (setq textHeight 0.06)  ; Altura de texto que solicitaste
+    ;; =======================================================
+
     (setq viewportObj (ByrneGetViewport))
 
-    (if (null viewportObj)
-        (progn
-            (princ "\nNo se seleccionó ningún viewport.")
-            (princ)
-        )
+    (if viewportObj
         (progn
             (setq viewportEname (vlax-vla-object->ename viewportObj))
-            
-            ;; Extraer y resolver los componentes físicos del viewport actual
             (setq components (ByrneResolveComponents viewportEname))
+            (setq internalBOM (ByrneBuildInternalBOM components))
 
-            (if (null components)
+            (if internalBOM
                 (progn
-                    (princ "\nNo se encontraron componentes Byrne dentro de este viewport.")
-                    (princ)
-                )
-                (progn
-                    ;;=================================================
-                    ;; CONSTRUCCIÓN DEL BOM LOCAL FILTRADO POR EL GLOBAL
-                    ;;=================================================
-                    (setq viewportBOM nil)
-
-                    ;; Iteramos sobre la "Fuente Única de Verdad"
-                    (foreach globalItem *ByrneProjectScan*
-                        (setq bName (cdr (assoc 'blockName globalItem)))
-                        
-                        ;; Contar cuántas instancias de este bloque global viven en el viewport
-                        (setq localQty (ByrneCountInstances bName components))
-
-                        ;; Si existe en el viewport, construimos la entrada mapeada
-                        (if (> localQty 0)
-                            (setq viewportBOM
-                                  (append viewportBOM
-                                          (list
-                                              (list
-                                                  (assoc 'item globalItem)
-                                                  (assoc 'blockName globalItem)
-                                                  (assoc 'description globalItem)
-                                                  (assoc 'partNumber globalItem)
-                                                  (cons 'qty localQty)
-                                              )
-                                          )
-                                  )
-                            )
-                        )
-                    )
-
-                    ;;=================================================
-                    ;; DIBUJAR LA TABLA (ESTILO PRETTY TABLE)
-                    ;;=================================================
                     (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
                     (setq currentSpace (vla-get-Block (vla-get-ActiveLayout doc)))
-                    
-                    (setq insPt (getpoint "\nSelecciona el punto de inserción para la tabla BOM: "))
-                    
+                    (setq insPt (getpoint "\nSelect insertion point for the BOM table: "))
+
                     (if insPt
                         (progn
-                            ;; 2 filas para Título y Encabezados + número de datos
-                            (setq rows (+ (length viewportBOM) 2))
+                            (setq rows (+ 2 (length internalBOM)))
                             (setq cols 4)
 
-                            ;; Crear objeto Tabla ActiveX con las medidas de PrettyTable
-                            (setq tableObj 
-                                  (vla-AddTable 
-                                      currentSpace 
-                                      (vlax-3d-point insPt) 
-                                      rows 
-                                      cols 
-                                      0.12  ; Altura de fila original
-                                      1.0   ; Ancho de columna original
-                                  )
-                            )
+                            (setq tableObj
+                                (vla-AddTable
+                                    currentSpace
+                                    (vlax-3d-point insPt)
+                                    rows
+                                    cols
+                                    rHeight
+                                    cwSymbol))
 
-                            ;;=========================================
-                            ;; REMOVE TITLE ROW
-                            ;;=========================================
-                            (vla-DeleteRows tableObj 0 1)
+                            (vl-catch-all-apply
+                                'vla-put-StyleName
+                                (list tableObj "CorrectTable"))
 
-                            ;;=========================================
-                            ;; TEXT HEIGHT
-                            ;;=========================================
-                            (vla-SetTextHeight tableObj 1 0.06)
-                            (vla-SetTextHeight tableObj 2 0.06)
-                            (vla-SetTextHeight tableObj 4 0.06)
+                            ;; =======================================
+                            ;; 1. DESCOMBINAR Y BORRAR TÍTULO
+                            ;; =======================================
+                            (vl-catch-all-apply 'vla-UnmergeCells (list tableObj 0 0 0 3))
+                            (vl-catch-all-apply 'vla-DeleteRows (list tableObj 0 1))
 
-                            ;;=========================================
-                            ;; COLUMN WIDTHS
-                            ;;=========================================
-                            (vla-SetColumnWidth tableObj 0 0.35)
-                            (vla-SetColumnWidth tableObj 1 1.25)
-                            (vla-SetColumnWidth tableObj 2 1.25)
-                            (vla-SetColumnWidth tableObj 3 0.50)
+                            ;; =======================================
+                            ;; 2. APLICAR ANCHOS Y ALTURAS PRIMERO
+                            ;; =======================================
+                            ;; Alturas Globales
+                            (vl-catch-all-apply 'vla-SetTextHeight (list tableObj 1 textHeight))
+                            (vl-catch-all-apply 'vla-SetTextHeight (list tableObj 2 textHeight))
+                            (vl-catch-all-apply 'vla-SetTextHeight (list tableObj 4 textHeight))
 
-                            ;;=========================================
-                            ;; HEADERS (Ahora en la fila 0 tras borrar el título)
-                            ;;=========================================
-                            (vla-SetText tableObj 0 0 "ITEM")
-                            (vla-SetText tableObj 0 1 "SYMBOLOGY")
-                            (vla-SetText tableObj 0 2 "DESCRIPTION")
-                            (vla-SetText tableObj 0 3 "QTY")
+                            ;; Columnas
+                            (vla-SetColumnWidth tableObj 0 cwItem)
+                            (vla-SetColumnWidth tableObj 1 cwSymbol)
+                            (vla-SetColumnWidth tableObj 2 cwDesc)
+                            (vla-SetColumnWidth tableObj 3 cwQty)
 
-                            ;;=========================================
-                            ;; Llenado de filas dinámicas
-                            ;;=========================================
-                            (setq row 1) ; Empieza en 1 porque la fila 0 son los encabezados
-                            (foreach bomEntry viewportBOM
-                                
-                                ;; Ítem indexado globalmente
-                                (vla-SetText tableObj row 0 (itoa (cdr (assoc 'item bomEntry))))
-                                
-                                ;; Espacio reservado para bloques de simbología futura
-                                (vla-SetText tableObj row 1 "")
-                                
-                                ;; Descripción exacta del catálogo maestro
-                                (vla-SetText tableObj row 2 (cdr (assoc 'description bomEntry)))
-                                
-                                ;; Cantidad localizada en la ventana escaneada
-                                (vla-SetText tableObj row 3 (itoa (cdr (assoc 'qty bomEntry))))
-                                
+                            ;; Altura de filas
+                            (setq row 0)
+                            (repeat (vla-get-Rows tableObj)
+                                (vl-catch-all-apply 'vla-SetRowHeight (list tableObj row rHeight))
                                 (setq row (1+ row))
                             )
 
-                            (princ "\nByrne Correct Table generada exitosamente con formato e índices globales.")
+                            ;;----------------------------------------
+                            ;; Encabezados (Fila 0)
+                            ;;----------------------------------------
+                            (vla-SetText tableObj 0 0 "ITEM")
+                            (vla-SetText tableObj 0 1 "SYMBOL")
+                            (vla-SetText tableObj 0 2 "DESCRIPTION")
+                            (vla-SetText tableObj 0 3 "QTY")
+
+                            (setq col 0)
+                            (repeat 4
+                                (vl-catch-all-apply 'vla-SetCellTextHeight (list tableObj 0 col textHeight))
+                                (vla-SetCellAlignment tableObj 0 col 5)
+                                (setq col (1+ col))
+                            )
+
+                            ;;----------------------------------------
+                            ;; Datos (Fila 1 en adelante)
+                            ;;----------------------------------------
+                            (setq row 1)
+
+                            (foreach bomEntry internalBOM
+
+                                ;; ITEM
+                                (vla-SetText tableObj row 0 (itoa (cdr (assoc 'item bomEntry))))
+                                (vl-catch-all-apply 'vla-SetCellTextHeight (list tableObj row 0 textHeight))
+                                (vla-SetCellAlignment tableObj row 0 5)
+
+                                ;; SYMBOL
+                                (setq rawBlockName (cdr (assoc 'blockName bomEntry)))
+                                (setq catEntry (ByrneGetCatalogEntry rawBlockName))
+                                (setq symbolBlock (cdr (assoc 'symbolBlock catEntry)))
+                                (if (not symbolBlock) (setq symbolBlock rawBlockName))
+
+                                (setq blkID (ByrneGetOrLoadBlockID symbolBlock))
+
+                                (if blkID
+                                    (progn
+                                        (vla-SetCellType tableObj row 1 2)
+                                        
+                                        ;; LA MAGIA SUCEDE AQUÍ: :vlax-true activa el AutoFit
+                                        (vla-SetBlockTableRecordId tableObj row 1 blkID :vlax-true)
+                                        (vla-SetAutoScale tableObj row 1 :vlax-true)
+                                        
+                                        (vla-SetCellAlignment tableObj row 1 5)
+                                    )
+                                    (vla-SetText tableObj row 1 "")
+                                )
+
+                                ;; DESCRIPTION
+                                (vla-SetText tableObj row 2 (cdr (assoc 'description bomEntry)))
+                                (vl-catch-all-apply 'vla-SetCellTextHeight (list tableObj row 2 textHeight))
+                                (vla-SetCellAlignment tableObj row 2 4)
+
+                                ;; QTY
+                                (vla-SetText tableObj row 3 (itoa (cdr (assoc 'qty bomEntry))))
+                                (vl-catch-all-apply 'vla-SetCellTextHeight (list tableObj row 3 textHeight))
+                                (vla-SetCellAlignment tableObj row 3 5)
+
+                                (setq row (1+ row))
+                            )
+
+                            (princ "\nByrne BOM generada. Escala y Autofit calibrados al 100%.")
                         )
-                        (princ "\nOperación cancelada: No se seleccionó un punto de inserción.")
                     )
                 )
+                (princ "\nNo Byrne components found inside viewport.")
             )
         )
+        (princ "\nNo viewport selected.")
     )
     (princ)
-  
-  (ByrneEnd)
 )
