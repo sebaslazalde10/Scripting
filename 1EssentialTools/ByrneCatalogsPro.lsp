@@ -16,8 +16,8 @@
     (blockName  . "hardwiredPowerInfeedConnectorEnd_SOURCE")
     (description . "HARDWIRE POWER INFEED")
     (partNumber . "XXXX-XXX")
-    (symbolBlock . "SYM_HARDWIRE_POWER_INFEED")
-    (blockScale . 0.06)
+    (symbolBlock . "SYM_HARDWIRE_POWER_INFEED") ;;OK
+    (blockScale . 1.00)
 )
 
   
@@ -25,15 +25,15 @@
     (blockName  . "CordedEndConnector")
     (description . "XX\" POWER INFEED")
     (partNumber . "XXXX-XXX")
-    (symbolBlock . "SYM_CORD_CONNECTOR")
-    (blockScale . 0.06)
+    (symbolBlock . "SYM_CORD_CONNECTOR") ;;OK
+    (blockScale . 1.00)
 )
   
 (
     (blockName  . "newJumperOrangeEndEnd")
     (description . "XX\" JUMPER")
     (partNumber . "XXXX-XXX")
-    (symbolBlock . "SYM_NEW_JUMPER_ORANGE")
+    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
     (blockScale . 0.06)
 )
   
@@ -116,7 +116,6 @@
     (symbolBlock . "8TRAC_RECEPTACLE_C4_UP")
     (blockScale . 0.06)
 ) 
-)
   
 (
     (blockName  . "8TRAC_RECEPTACLE_C4_SIDE")
@@ -131,7 +130,7 @@
     (description . "XX\" M/M JUMPER")
     (partNumber . "XXXX-XXX") 
     (symbolBlock . "SYM_MMJumper")
-    (blockScale . 0.06)
+    (blockScale . 1.00)
 )
 
 ;=================================================
@@ -145,7 +144,7 @@
     (description . "XX\" F/F PASS THRU")
     (partNumber . "XXXX-XXX")
     (symbolBlock . "SYM_BLUEJumper")
-    (blockScale . 0.06)
+    (blockScale . 1.00)
 )
   
 (
@@ -234,7 +233,7 @@
     (description . "IQ 2.0 CONTROL BOX")
     (partNumber . "XXXX-XXX")
     (symbolBlock . "SYM_SMART_INFEED")
-    (blockScale . 0.06)
+    (blockScale . 1.00)
 )
   
   ;=================================================
@@ -247,6 +246,7 @@
     (partNumber . "XXXX-XXX")
     (symbolBlock . "AXIL_X")
     (blockScale . 0.06)
+)
 
 (
     (blockName  . "DEAN")
@@ -303,6 +303,14 @@
     (symbolBlock . "MINITAP")
     (blockScale . 0.06)
 )
+  
+(
+    (blockName  . "MINITAP_SLIDE_MOUNT_2")
+    (description . "MINITAP SLIDE MOUNT")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "MINITAP_SLIDE_MOUNT_2")
+    (blockScale . 0.06)
+)
 
 (
     (blockName  . "NACRE")
@@ -352,4 +360,6 @@
     (blockScale . 0.06)
 )
 
-))
+)
+
+)

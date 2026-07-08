@@ -42,7 +42,7 @@
 ; BYRNECORRECTTABLE
 ;=================================================
 
-(defun c:BYRNECORRECTTABLE
+(defun c:BOMMING
        (/ doc currentSpace insPt rows cols row col tableObj
           viewportObj viewportEname components internalBOM
           bomEntry rawBlockName catEntry symbolBlock blkID customScale
@@ -166,7 +166,7 @@
                                 ;; DESCRIPTION
                                 (vla-SetText tableObj row 2 (cdr (assoc 'description bomEntry)))
                                 (vl-catch-all-apply 'vla-SetCellTextHeight (list tableObj row 2 textHeight))
-                                (vla-SetCellAlignment tableObj row 2 4)
+                                (vla-SetCellAlignment tableObj row 2 5)
 
                                 ;; QTY
                                 (vla-SetText tableObj row 3 (itoa (cdr (assoc 'qty bomEntry))))
