@@ -48,7 +48,8 @@
           bomEntry rawBlockName catEntry symbolBlock blkID customScale
           cwItem cwSymbol cwDesc cwQty
           rHeight textHeight fallbackScale)
-
+  
+    (ByrneStart "BYRNE_BOM" "0, 0, 0")
     ;; =======================================================
     ;; CONFIGURACIÓN FÍSICA (Centímetros)
     ;; =======================================================
@@ -195,5 +196,88 @@
         )
         (princ "\nNo viewport selected.")
     )
+  
+    (ByrneEnd)
     (princ)
+)
+
+;=================================================
+; ByrneExportCSV.lsp
+; Byrne México CAD Automation Library
+;
+; Módulo de exportación de BOM a formato CSV
+;=================================================
+
+(vl-load-com)
+
+
+(defun ByrneExportToCSV (internalBOM / csvFile f bomEntry item rawBlockName catEntry desc partNum qty lineStr)
+  ;; 1. Solicitar al usuario la ruta y nombre del archivo
+  (setq csvFile (getfiled "Export BOM as CSV" "Byrne_Bill_of_Materials" "csv" 1))
+  
+  (if csvFile
+    (progn
+      ;; 2. Abrir el archivo en modo escritura ("w" = write)
+      (setq f (open csvFile "w"))
+      
+      ;; 3. Escribir encabezados
+      (write-line "ITEM,DESCRIPTION,PART NUMBER,QTY" f)
+      
+      ;; 4. Iterar sobre el internalBOM
+      (foreach bomEntry internalBOM
+        
+        ;; Extraer datos básicos del BOMEntry
+        (setq item (itoa (cdr (assoc 'item bomEntry))))
+        (setq rawBlockName (cdr (assoc 'blockName bomEntry)))
+        (setq desc (cdr (assoc 'description bomEntry)))
+        (setq qty (itoa (cdr (assoc 'qty bomEntry))))
+        
+        ;; Consultar ByrneCatalogsPro.lsp para obtener el NO. DE PARTE
+        (setq catEntry (ByrneGetCatalogEntry rawBlockName))
+        (setq partNum (cdr (assoc 'partNumber catEntry)))
+        
+        ;; Validaciones de seguridad (evitar errores de tipo 'nil')
+        (if (not desc) (setq desc "N/A"))
+        (if (not partNum) (setq partNum "N/A"))
+        
+        ;; Limpiar comas para no romper la estructura del CSV
+        (setq desc (vl-string-translate "," " " desc))
+        (setq partNum (vl-string-translate "," " " partNum))
+        
+        ;; 5. Construir y escribir la fila (Omitiendo la columna de Símbolo)
+        (setq lineStr (strcat item "," desc "," partNum "," qty))
+        (write-line lineStr f)
+      )
+      
+      ;; 6. Cerrar el archivo para liberar la memoria
+      (close f)
+      (princ (strcat "\nSuccessful exportation, file saved to: " csvFile))
+    )
+    (princ "\nExportation cancelled by the user.")
+  )
+  (princ)
+)
+
+(defun c:BOM2CSV (/ viewportObj viewportEname components internalBOM)
+  (ByrneStart "BYRNE_BOM_CSV" "0, 0, 0")
+  
+  (setq viewportObj (ByrneGetViewport))
+
+  (if viewportObj
+      (progn
+          (setq viewportEname (vlax-vla-object->ename viewportObj))
+          (setq components (ByrneResolveComponents viewportEname))
+          (setq internalBOM (ByrneBuildInternalBOM components))
+
+          (if internalBOM
+              ;; Si el BOM se generó correctamente, disparamos la exportación
+              (ByrneExportToCSV internalBOM)
+              (princ "\nNo Byrne components found inside viewport.")
+          )
+      )
+      (princ "\nNo viewport selected.")
+  )
+  
+  (ByrneEnd)
+  (princ)
 )
