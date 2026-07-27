@@ -1,18 +1,18 @@
-(defun c:P3C2SIDE (/ startPt)
+(defun c:P3C3SIDE (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_P3C2SIDE" "0, 255, 255")
+  (ByrneStart "BYRNE_P3C3SIDE" "242, 103, 34")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota RECEPTACLE C2: ")
+  (prompt "\nInserta y rota RECEPTACLE C3: ")
 
-  (ByrnePurgeBlock "C2_RECEPTACLE")
+  (ByrnePurgeBlock "C3_RECEPTACLE")
 
   (ByrneInsertBlock
-    "C2_RECEPTACLE"
+    "C3_RECEPTACLE"
     pause
   )
 
@@ -23,7 +23,7 @@
 
   (ByrneEnd)
 
-  (princ "\n RECEPTACLE C2 insertado correctamente.")
+  (princ "\n C3 RECEPTACLE insertado correctamente.")
   (princ)
 
 )

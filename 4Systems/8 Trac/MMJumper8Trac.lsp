@@ -27,8 +27,8 @@
   (command "_.PLINE" startPt
 		startPt
 		"_W"
-		2.0
-		2.0
+		0.5
+    0.5
   )
 
 

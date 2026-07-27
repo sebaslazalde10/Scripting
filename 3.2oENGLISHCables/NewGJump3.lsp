@@ -1,18 +1,18 @@
-(defun c:PLD8TRACSIDECABLE (/ startPt cableEnt endPt)
+(defun c:NGJUMP3 (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_POWER_INFEED" "0, 255, 0")
+  (ByrneStart "BYRNE_JUMPER_ORANGE" "242, 103, 34")
 
 ;; =========================
   ;; INSERTAR CONECTOR INICIAL
   ;; =========================
 (setq startPt (getpoint "\nSelecciona el punto de inicio: "))
    (ByrnePurgeBlock
-    "InfeedBeginSide"
+    "newJumperOrangeEndBegin"
   )
 
   (ByrneInsertBlock
-    "InfeedBeginSide"
+    "newJumperOrangeEndBegin"
     startPt
   )
 
@@ -20,18 +20,13 @@
   ;; =========================
   ;; DIBUJAR CABLE
   ;; =========================
-
-(setvar "CECOLOR" "RGB:0, 255, 0")
-  (setvar "CELWEIGHT" 0)
   
-  (command "_.PLINE" startPt
-		startPt
-		"_W"
-		0.5
-    0.5
-           
-  )
-
+  (command "_.PLINE"
+         startPt
+         "_W"
+         0.5
+         0.5
+)
 
   (while (> (getvar "CMDACTIVE") 0)
     (command pause)
@@ -53,19 +48,19 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "newJumperOrangeEndEnd"
   )
 
   (ByrneInsertBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "newJumperOrangeEndEnd3"
     endPt
   )
 
-  ;;(ByrneAddBOM "HARDWIRED POWER INFEED" 1)
+  ;;(ByrneAddBOM "COMMERCIAL_NAME" 1)
 
-   Restaurar entorno Byrne
+   ;;Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\nHARDWIRED POWER INFEED creado correctamente.")
+  (princ "\n JUMPER creado correctamente.")
   (princ)
 )

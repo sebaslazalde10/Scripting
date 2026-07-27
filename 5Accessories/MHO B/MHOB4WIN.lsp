@@ -1,4 +1,4 @@
-(defun c:MHOBACC (/ startPt)
+(defun c:MHOB4WINACC (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_MHO_B" "255,0,255")
@@ -9,10 +9,10 @@
 
   (prompt "\nInserta y rota MHO B: ")
 
-  (ByrnePurgeBlock "MHOB")
+  (ByrnePurgeBlock "MHOB_4_WIN_REAL")
 
   (ByrneInsertBlock
-    "MHOB"
+    "MHOB_4_WIN_REAL"
     pause
   )
 
@@ -28,15 +28,10 @@
   ;; BOM
   ;; =========================
 
-  (ByrneAddBOM "MHO B" 1)
-
-  ;; =========================
-  ;; RESTAURAR ENTORNO
-  ;; =========================
 
   (ByrneEnd)
 
-  (princ "\nMHO B insertado correctamente.")
+  (princ "\nMHO B 4 WINDOWS insertado correctamente.")
   (princ)
 
 )
