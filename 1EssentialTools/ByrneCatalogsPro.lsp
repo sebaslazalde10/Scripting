@@ -73,7 +73,33 @@
 ;=================================================
 ; 4 TRAC
 ;=================================================
+
 (
+    (blockName  . "4T_Hardwired")
+    (description . "XX\" LIQUID TIGHT CONDUIT")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_HARDWIRE_POWER_INFEED")   
+    (blockScale . 1.00)
+)
+
+  
+  (
+    (blockName  . "4T_JUMPER_SIDE_BEGIN")
+    (description . "XX\" F/F JUMPER")
+    (partNumber . "BE41917-X-X-XX-XX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
+  
+(
+    (blockName  . "4T_3WAY_BEGIN")
+    (description . "XX\" F/F/M JUMPER")
+    (partNumber . "BE44631-X-XX")
+    (symbolBlock . "SYM_3WAY_BLUEJumper")
+    (blockScale . 0.002)
+)
+  
+  (
     (blockName  . "4T_DUPLEX_RECEPTACLE_SIDE")
     (description . "DUPLEX RECEPTACLE")
     (partNumber . "BE41917-X-X-XX-XX")
@@ -88,11 +114,37 @@
     (symbolBlock . "4T_DUPLEX_RECEPTACLE_UP")
     (blockScale . 0.06)
 )
+  
+(
+    (blockName  . "4T_TRIPLEX_RECEPTACLE_UP")
+    (description . "TRIPLEX RECEPTACLE")
+    (partNumber . "XXX-XX-XX-XXX")
+    (symbolBlock . "4T_TRIPLEX_RECEPTACLE_UP")
+    (blockScale . 0.06)
+)
+  
+  (
+    (blockName  . "4T_TRIPLEX_RECEPTACLE_SIDE")
+    (description . "TRIPLEX RECEPTACLE")
+    (partNumber . "XXX-XX-XX-XXX")
+    (symbolBlock . "4T_TRIPLEX_RECEPTACLE_SIDE")
+    (blockScale . 0.06)
+)
 
 ;=================================================
 ; 8 TRAC
 ;=================================================
 
+
+  (
+    (blockName  . "MMJumpEnd")
+    (description . "XX\" M/M JUMPER")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "SYM_MMJumper")
+    (blockScale . 1.00)
+)
+
+  
 (
     (blockName  . "8TRAC_SINGLE_HALFBLOCK_SIDE_REALISTIC")
     (description . "SINGLE HALF BLOCK")
@@ -102,10 +154,18 @@
 )
   
   (
-    (blockName  . "8TRAC_DOUBLE_BLOCK_UP_REALISTIC")
+    (blockName  . "8TRAC_DOUBLE_HALFBLOCK_UP_REALISTIC")
     (description . "DOUBLE BLOCK")
     (partNumber . "BE08290-3-2-30-00")
     (symbolBlock . "8TRAC_DOUBLE_BLOCK_UP_REALISTIC")
+    (blockScale . 0.06)
+)
+  
+   (
+    (blockName  . "8TRAC_DOUBLE_HALFBLOCK_SIDE_REALISTIC")
+    (description . "DOUBLE HALF BLOCK")
+    (partNumber . "BE08290-3-2-30-00")
+    (symbolBlock . "8TRAC_DOUBLE_HALFBLOCK_SIDE_REALISTIC")
     (blockScale . 0.06)
 )
   
@@ -181,12 +241,22 @@
     (blockScale . 0.06)
 )
 
+
+  
 (
-    (blockName  . "MMJumpEnd")
-    (description . "XX\" M/M JUMPER")
+    (blockName  . "MM_CONNECTOR_UP")
+    (description . "M/M CONNECTOR")
     (partNumber . "XXXX-XXX") 
-    (symbolBlock . "SYM_MMJumper")
-    (blockScale . 1.00)
+    (symbolBlock . "MM_CONNECTOR_UP")
+    (blockScale . 0.09)
+)
+  
+  (
+    (blockName  . "8TRAC_H_CONNECTOR")
+    (description . "H CONNECTOR")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "8TRAC_H_CONNECTOR")
+    (blockScale . 0.09)
 )
 
 ;=================================================
@@ -195,25 +265,18 @@
 
 
   
+
 (
-    (blockName  . "BLUEJUMPERFINISH")
-    (description . "XX\" F/F PASS THRU")
+    (blockName  . "SINGLEBLOCKPHASE3")
+    (description . "PHASE 3 24\" BLOCK")
     (partNumber . "XXXX-XXX")
-    (symbolBlock . "SYM_BLUEJumper")
-    (blockScale . 1.00)
+    (symbolBlock . "SINGLEBLOCKPHASE3")   
+    (blockScale . 0.06)
 )
+
   
-(
-    (blockName  . "BLUEJUMPEREND")
-    (description . "XX\" F/F/M 3-WAY PASS THRU")
-    (partNumber . "XXXX-XXX")
-    (symbolBlock . "SYM_3WAY_BLUEJumper")
-    (blockScale . 0.0015)
-)
-  
-(
-    (blockName  . "DOUBLEBLOCKPHASE3")
-    (description . "PHASE 3 DOUBLE BLOCK")
+(    (blockName  . "DOUBLEBLOCKPHASE3")
+    (description . "PHASE 3 30\" BLOCK")
     (partNumber . "XXXX-XXX")
     (symbolBlock . "DOUBLEBLOCKPHASE3")
     (blockScale . 0.06)
@@ -241,6 +304,26 @@
     (partNumber . "XXXX-XXX")
     (symbolBlock . "C3_RECEPTACLE")
     (blockScale . 0.06)
+)
+  
+  
+  
+
+  
+  (
+    (blockName  . "BLUEJUMPERFINISH")
+    (description . "XX\" F/F PASS THRU")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
+  
+  (
+    (blockName  . "BLUEJUMPEREND")
+    (description . "XX\" F/F/M 3-WAY PASS THRU")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_3WAY_BLUEJumper")
+    (blockScale . 0.0015)
 )
 
 
@@ -312,6 +395,15 @@
     (symbolBlock . "AXIL_X")
     (blockScale . 0.06)
 )
+  
+  (
+    (blockName  . "AXIL_Z_3_WIN")
+    (description . "AXIL Z 3 WINDOWS")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "AXIL_Z_3_WIN")   
+    (blockScale . 0.06)
+)
+
 
 (
     (blockName  . "DEAN")
@@ -337,6 +429,32 @@
     (blockScale . 0.06)
 )
 
+  
+(
+    (blockName  . "E2XB_4WIN_REAL")
+    (description . "E2XB 4 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "E2XB_4WIN_REAL")
+    (blockScale . 0.06)
+)
+(
+    (blockName  . "ELLORAB_4WIN_REAL")
+    (description . "ELLORA B 4 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "ELLORAB_4WIN_REAL")
+    (blockScale . 0.06)
+)  
+  
+
+  (
+    (blockName  . "ELLORAB_4WIN_REAL_IQ")
+    (description . "ELLORA B 4 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "ELLORAB_4WIN_REAL_IQ")
+    (blockScale . 0.06)
+)
+  
+
 (
     (blockName  . "ELLORAB5WIN")
     (description . "ELLORA B 5 WINDOW")
@@ -352,6 +470,14 @@
     (symbolBlock . "ELLORAB6WIN")   
     (blockScale . 0.06)
 )
+  
+(
+    (blockName  . "DEANHYDRA_3_WINDOW")
+    (description . "DEAN HYDRA 3 WINDOW")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "HYDRA_ICON")   
+    (blockScale . 1.00)
+)
 
   
   (
@@ -363,10 +489,27 @@
 )
   
 (
-    (blockName  . "MHOB_3_WIN")
+    (blockName  . "MHO_3_WIN_2_REAL")
+    (description . "MHO 3 WINDOWS")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "MHO_3_WIN_2_REAL")
+    (blockScale . 0.06)
+)
+
+  
+(
+    (blockName  . "MHO_4_WIN_REAL")
+    (description . "MHO 4 WINDOWS")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "MHO_4_WIN_REAL")
+    (blockScale . 0.06)
+) 
+  
+(
+    (blockName  . "MHOB_3_WIN_2")
     (description . "MHO B HDMI + ETHERNET")
     (partNumber . "XXXX-XXX")
-    (symbolBlock . "MHOB_3_WIN")
+    (symbolBlock . "MHOB_3_WIN_2")
     (blockScale . 0.06)
 )  
   
@@ -377,15 +520,8 @@
     (symbolBlock . "MHOB_3_WIN")
     (blockScale . 0.06)
 )
-
   
-(
-    (blockName  . "MHOB_4_WIN_REAL")
-    (description . "MHO B 4 WINDOWS")
-    (partNumber . "XXXX-XXX")
-    (symbolBlock . "MHOB_4_WIN_REAL")
-    (blockScale . 0.06)
-)
+
   
 (
     (blockName  . "MIKI_2PORTS_UM")
@@ -444,6 +580,15 @@
 )
   
   (
+    (blockName  . "NAICA_4W")
+    (description . "NAICA 4 WINDOWS")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "NAICA_4W")   
+    (blockScale . 0.0007)
+)
+
+  
+  (
     (blockName  . "NODE_SIDE")
     (description . "NODE")
     (partNumber . "XXXX-XXX")
@@ -466,6 +611,24 @@
     (symbolBlock . "START")
     (blockScale . 0.06)
 )
+  
+(
+    (blockName  . "START_EM_2_WIN")
+    (description . "START EM 2 WIN")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "START_EM_2_WIN")   
+    (blockScale . 0.06)
+)
+  
+(
+    (blockName  . "START_EM_3_WIN")
+    (description . "START EM 3 WINDOWS")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "START_EM_3_WIN")   
+    (blockScale . 0.06)
+)
+
+
   
 (
     (blockName  . "START_Z_2_WIN")

@@ -1,18 +1,18 @@
-(defun c:START_Z_2WINACC_REAL (/ startPt)
+(defun c:GEN_DEAN4SURFACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_START_Z_2_WIN" "255, 0, 255")
+  (ByrneStart "BYRNE_DEAN_4_W_IN_SURFACE" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota START Z 2 WINDOWS: ")
+  (prompt "\nInserta y rota DEAN_4_W_IN_SURFACE: ")
 
-  (ByrnePurgeBlock "START_Z_2_WIN")
+  (ByrnePurgeBlock "DEAN_4_W_IN_SURFACE")
 
   (ByrneInsertBlock
-    "START_Z_2_WIN"
+    "DEAN_4_W_IN_SURFACE"
     pause
   )
 
@@ -24,6 +24,11 @@
 
   (ByrneGenericCord startPt)
 
+  ;; =========================
+  ;; BOM
+  ;; =========================
+
+  (ByrneAddBOM "DEAN 4 WINDOWS IN-SURFACE" 1)
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -31,7 +36,7 @@
 
   (ByrneEnd)
 
-  (princ "\nStart Z 2 Windows insertado correctamente.")
+  (princ "\nDEAN_4_W_IN_SURFACE insertado correctamente.")
   (princ)
 
 )

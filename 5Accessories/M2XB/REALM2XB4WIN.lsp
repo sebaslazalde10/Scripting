@@ -1,18 +1,18 @@
-(defun c:DEAN4SURFACC (/ startPt)
+(defun c:M2XB_4WINACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_DEAN_4_W_IN_SURFACE" "255,0,255")
+  (ByrneStart "BYRNE_M2XB_4WIN" "255, 0, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota DEAN_4_W_IN_SURFACE: ")
+  (prompt "\nInserta y rota M2XB_4WIN: ")
 
-  (ByrnePurgeBlock "DEAN_4_W_IN_SURFACE")
+  (ByrnePurgeBlock "M2XB_4_WIN")
 
   (ByrneInsertBlock
-    "DEAN_4_W_IN_SURFACE"
+    "M2XB_4_WIN"
     pause
   )
 
@@ -24,11 +24,6 @@
 
   (ByrneGenericCord startPt)
 
-  ;; =========================
-  ;; BOM
-  ;; =========================
-
-  (ByrneAddBOM "DEAN 4 WINDOWS IN-SURFACE" 1)
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -36,7 +31,7 @@
 
   (ByrneEnd)
 
-  (princ "\nDEAN_4_W_IN_SURFACE insertado correctamente.")
+  (princ "\nM2XB 4 WIN insertado correctamente.")
   (princ)
 
 )

@@ -1,4 +1,4 @@
-(defun c:MHOB3WINACC (/ startPt)
+(defun c:MHO_B_3WINACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_MHO_B_3_WIN" "255,0,255")

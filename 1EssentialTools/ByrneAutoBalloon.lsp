@@ -195,3 +195,88 @@
 
 ; Alias para llamar al comando fácilmente
 (defun c:UPANDOWN () (BalloonsUpAndDownByrne))
+
+
+;=================================================
+; BalloonsLeftAndRightByrne
+; Distribución Izquierda-Derecha para arreglos verticales
+;=================================================
+
+(defun BalloonsLeftAndRightByrne (/ doc viewportObj viewportEname vpId components project balloonData 
+                                   msPt dcsPt psPt item blockName sortedBalloons data compY toggle offset lastY currentOffsetX)
+
+    (vl-load-com)
+    (setq viewportObj (ByrneGetViewport))
+
+    (if viewportObj
+        (progn
+            (setq viewportEname (vlax-vla-object->ename viewportObj))
+            (setq vpId (cdr (assoc 69 (entget viewportEname))))
+            (setq components (ByrneResolveComponents viewportEname))
+
+            ;; 1. Obtener BOM
+            (setq project (ByrneGetProjectScan))
+            (if (not project) (setq project (ByrneBuildProjectScan)))
+
+            (if components
+                (progn
+                    (setq doc (vla-get-ActiveDocument (vlax-get-acad-object)))
+                    
+                    ;; 2. Traducción de coordenadas a PaperSpace
+                    (vla-put-MSpace doc :vlax-true)
+                    (setvar "CVPORT" vpId)
+                    (setq balloonData nil)
+                    
+                    (foreach component components
+                        (setq msPt (cdr (assoc 'insertPoint component)))
+                        (setq dcsPt (trans msPt 0 2))
+                        (setq psPt (trans dcsPt 2 3))
+                        (setq item (if project (ByrneGetGlobalItemNumber (cdr (assoc 'blockName component)) project) nil))
+                        (setq balloonData (cons (cons psPt item) balloonData))
+                    )
+                    (vla-put-MSpace doc :vlax-false)
+
+                    ;; 3. Ordenar de arriba a abajo por coordenada Y (cadr)
+                    (setq sortedBalloons (vl-sort balloonData '(lambda (a b) (> (cadr (car a)) (cadr (car b))))))
+
+                    ;; 4. Lógica de Zig-Zag Horizontal
+                    ;; toggle: 1 (Derecha), -1 (Izquierda)
+                    ;; offset: 0.12 (distancia horizontal)
+                    (setq toggle 1
+                          offset 0.12
+                          lastY -999.0)
+
+                    (foreach data sortedBalloons
+                        (setq psPt (car data)
+                              item (cdr data)
+                              compY (cadr psPt))
+
+                        ;; Evaluar colisión vertical entre componentes cercanos
+                        (if (< (abs (- compY lastY)) 0.15)
+                            (progn
+                                (setq currentOffsetX (* toggle offset))
+                                (setq toggle (* toggle -1)) ;; Invertir lado
+                            )
+                            ;; Reset por defecto hacia la derecha (+ offset)
+                            (progn
+                                (setq currentOffsetX offset)
+                                (setq toggle -1)
+                            )
+                        )
+
+                        ;; Dibujar con offset únicamente en X
+                        (ByrneInsertBalloon psPt item currentOffsetX 0.0)
+                        
+                        (setq lastY compY)
+                    )
+                    (vla-Regen doc 0)
+                    (princ "\nDistribución Left-and-Right completada.")
+                )
+            )
+        )
+    )
+    (princ)
+)
+
+; Alias para llamar al comando
+(defun c:LEFTANDRIGHT () (BalloonsLeftAndRightByrne))

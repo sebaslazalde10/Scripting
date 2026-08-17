@@ -1,18 +1,18 @@
-(defun c:START_Z_2WINACC_REAL (/ startPt)
+(defun c:E2XB_4WIN_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_START_Z_2_WIN" "255, 0, 255")
+  (ByrneStart "BYRNE_E2XB_4_WIN" "255, 0, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota START Z 2 WINDOWS: ")
+  (prompt "\nInserta y rota E2XB 4 WINDOW: ")
 
-  (ByrnePurgeBlock "START_Z_2_WIN")
+  (ByrnePurgeBlock "E2XB_4WIN_REAL")
 
   (ByrneInsertBlock
-    "START_Z_2_WIN"
+    "E2XB_4WIN_REAL"
     pause
   )
 
@@ -24,6 +24,7 @@
 
   (ByrneGenericCord startPt)
 
+  
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -31,7 +32,7 @@
 
   (ByrneEnd)
 
-  (princ "\nStart Z 2 Windows insertado correctamente.")
+  (princ "\nE2XB 4 WINDOW insertado correctamente.")
   (princ)
 
 )

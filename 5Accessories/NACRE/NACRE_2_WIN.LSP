@@ -1,4 +1,4 @@
-(defun c:NACRE2WINACC (/ startPt)
+(defun c:NACRE_2WINACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_NACRE_2_WINDOW" "255, 255, 255")

@@ -1,4 +1,4 @@
-(defun c:DEAN2WINDOWACC (/ startPt)
+(defun c:GEN_DEAN2WINDOWACC (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_DEAN_2_WINDOW" "255, 0, 255")

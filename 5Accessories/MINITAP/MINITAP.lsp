@@ -1,4 +1,4 @@
-(defun c:MINITAPACC (/ startPt)
+(defun c:GEN_MINITAPACC (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_MINITAP" "255,0,255")

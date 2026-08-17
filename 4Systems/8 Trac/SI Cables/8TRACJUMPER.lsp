@@ -1,18 +1,18 @@
-(defun c:NGJUMP (/ startPt cableEnt endPt)
+(defun c:BJUMPSIDE8TRACCABLE (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_JUMPER_ORANGE" "242, 103, 34")
+  (ByrneStart "BYRNE_8_TRAC_JUMPER" "16, 86, 137")
 
 ;; =========================
   ;; INSERTAR CONECTOR INICIAL
   ;; =========================
 (setq startPt (getpoint "\nSelecciona el punto de inicio: "))
    (ByrnePurgeBlock
-    "newJumperOrangeEndBegin"
+    "MMJumpBegin"
   )
 
   (ByrneInsertBlock
-    "newJumperOrangeEndBegin"
+    "MMJumpBegin"
     startPt
   )
 
@@ -20,13 +20,17 @@
   ;; =========================
   ;; DIBUJAR CABLE
   ;; =========================
+
+(setvar "CECOLOR" "RGB: 16,86, 137 ")
+  (setvar "CELWEIGHT" 0)
   
-  (command "_.PLINE"
-         startPt
-         "_W"
-         1.0
-         1.0
-)
+  (command "_.PLINE" startPt
+		startPt
+		"_W"
+		3.0
+    3.0
+  )
+
 
   (while (> (getvar "CMDACTIVE") 0)
     (command pause)
@@ -48,19 +52,19 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "newJumperOrangeEndEnd"
+    "MMJumpEnd"
   )
 
   (ByrneInsertBlock
-    "newJumperOrangeEndEnd"
+    "MMJumpEnd"
     endPt
   )
 
-  ;;(ByrneAddBOM "COMMERCIAL_NAME" 1)
+  ;;(ByrneAddBOM "M/M JUMPER" 1)
 
-   ;;Restaurar entorno Byrne
+   Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\n JUMPER creado correctamente.")
+  (princ "\Nm/m JUMPER creado correctamente.")
   (princ)
 )

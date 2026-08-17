@@ -1,4 +1,4 @@
-(defun c:RIOACC (/ startPt)
+(defun c:GEN_RIO_XWIN_ACC (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_RIO" "255,0,255")

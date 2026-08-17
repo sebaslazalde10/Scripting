@@ -1,4 +1,4 @@
-(defun c:DEAN3WINACC (/ startPt)
+(defun c:GEN_DEAN3WINACC (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_DEAN_3_WIN" "255,0,255")

@@ -1,18 +1,18 @@
-(defun c:NODESIDEACC (/ startPt)
+(defun c:MHO_3WINACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_NODE" "255, 0, 255")
+  (ByrneStart "BYRNE_MHO" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota NODE_SIDE: ")
+  (prompt "\nInserta y rota MHO: ")
 
-  (ByrnePurgeBlock "NODE_SIDE")
+  (ByrnePurgeBlock "MHO_3_WIN_2_REAL")
 
   (ByrneInsertBlock
-    "NODE_SIDE"
+    "MHO_3_WIN_2_REAL"
     pause
   )
 
@@ -24,14 +24,14 @@
 
   (ByrneGenericCord startPt)
 
+  ;; =========================
+  ;; BOM
+  ;; =========================
 
-  ;; =========================
-  ;; RESTAURAR ENTORNO
-  ;; =========================
 
   (ByrneEnd)
 
-  (princ "\nNODE insertado correctamente.")
+  (princ "\nMHO 3 WINDOWS insertado correctamente.")
   (princ)
 
 )

@@ -1,18 +1,18 @@
-(defun c:START_Z_2WINACC_REAL (/ startPt)
+(defun c:MINITAP_KEY_ACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_START_Z_2_WIN" "255, 0, 255")
+  (ByrneStart "BYRNE_MINITAP" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota START Z 2 WINDOWS: ")
+  (prompt "\nInserta y rota MINITAP KEY MOUNT: ")
 
-  (ByrnePurgeBlock "START_Z_2_WIN")
+  (ByrnePurgeBlock "MINITAP_KEY_SLOT_2")
 
   (ByrneInsertBlock
-    "START_Z_2_WIN"
+    "MINITAP_KEY_SLOT_2"
     pause
   )
 
@@ -24,6 +24,11 @@
 
   (ByrneGenericCord startPt)
 
+  ;; =========================
+  ;; BOM
+  ;; =========================
+
+  (ByrneAddBOM "MINITAP" 1)
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -31,7 +36,7 @@
 
   (ByrneEnd)
 
-  (princ "\nStart Z 2 Windows insertado correctamente.")
+  (princ "\nMINITAP KEY SLOT insertado correctamente.")
   (princ)
 
 )

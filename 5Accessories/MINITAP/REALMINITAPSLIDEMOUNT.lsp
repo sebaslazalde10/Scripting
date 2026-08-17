@@ -1,4 +1,4 @@
-(defun c:MINITAPKEYACC (/ startPt)
+(defun c:MINITAP_SLIDE_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_MINITAP" "255,0,255")
@@ -7,12 +7,12 @@
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota MINITAP KEY MOUNT: ")
+  (prompt "\nInserta y rota MINITAP: ")
 
-  (ByrnePurgeBlock "MINITAP_KEY_SLOT_2")
+  (ByrnePurgeBlock "MINITAP_SLIDE_MOUNT_2")
 
   (ByrneInsertBlock
-    "MINITAP_KEY_SLOT_2"
+    "MINITAP_SLIDE_MOUNT_2"
     pause
   )
 
@@ -36,7 +36,7 @@
 
   (ByrneEnd)
 
-  (princ "\nMINITAP KEY SLOT insertado correctamente.")
+  (princ "\nMINITAP SLIDE MOUNT insertado correctamente.")
   (princ)
 
 )

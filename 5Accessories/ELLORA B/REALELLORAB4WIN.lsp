@@ -1,18 +1,18 @@
-(defun c:MINITAPSLIDEACC (/ startPt)
+(defun c:ELLORA_B_4WIN_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_MINITAP" "255,0,255")
+  (ByrneStart "BYRNE_ELLORAB_4_WIN" "255, 0, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota MINITAP: ")
+  (prompt "\nInserta y rota ELLORA B 4 WINDOW: ")
 
-  (ByrnePurgeBlock "MINITAP_SLIDE_MOUNT_2")
+  (ByrnePurgeBlock "ELLORAB_4WIN_REAL")
 
   (ByrneInsertBlock
-    "MINITAP_SLIDE_MOUNT_2"
+    "ELLORAB_4WIN_REAL"
     pause
   )
 
@@ -28,7 +28,7 @@
   ;; BOM
   ;; =========================
 
-  (ByrneAddBOM "MINITAP" 1)
+  (ByrneAddBOM "ELLORA B 4 WINDOW" 1)
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -36,7 +36,7 @@
 
   (ByrneEnd)
 
-  (princ "\nMINITAP SLIDE MOUNT insertado correctamente.")
+  (princ "\nELLORA B 4 WINDOW insertado correctamente.")
   (princ)
 
 )

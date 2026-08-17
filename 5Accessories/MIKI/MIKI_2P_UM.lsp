@@ -1,4 +1,4 @@
-(defun c:MIKI2PSUMACC (/)
+(defun c:MIKI_2PS_UMACC_REAL (/)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "MIKI_2PORTS_UM" "255,0,255")

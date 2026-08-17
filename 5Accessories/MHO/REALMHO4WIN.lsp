@@ -1,18 +1,18 @@
-(defun c:M2XB4WINACC (/ startPt)
+(defun c:MHO_4WINACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_M2XB_4WIN" "255, 0, 255")
+  (ByrneStart "BYRNE_MHO" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota M2XB_4WIN: ")
+  (prompt "\nInserta y rota MHO: ")
 
-  (ByrnePurgeBlock "M2XB_4_WIN")
+  (ByrnePurgeBlock "MHO_4_WIN_REAL")
 
   (ByrneInsertBlock
-    "M2XB_4_WIN"
+    "MHO_4_WIN_REAL"
     pause
   )
 
@@ -24,14 +24,14 @@
 
   (ByrneGenericCord startPt)
 
+  ;; =========================
+  ;; BOM
+  ;; =========================
 
-  ;; =========================
-  ;; RESTAURAR ENTORNO
-  ;; =========================
 
   (ByrneEnd)
 
-  (princ "\nM2XB 4 WIN insertado correctamente.")
+  (princ "\nMHO 4 WINDOWS insertado correctamente.")
   (princ)
 
 )

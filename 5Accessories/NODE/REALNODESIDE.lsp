@@ -1,18 +1,18 @@
-(defun c:STARTZ3WINACC (/ startPt)
+(defun c:NODE_SIDEACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_START_Z_3_WIN" "255, 255, 255")
+  (ByrneStart "BYRNE_NODE" "255, 0, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota START_Z_3_WIN: ")
+  (prompt "\nInserta y rota NODE_SIDE: ")
 
-  (ByrnePurgeBlock "START_Z_3_WIN")
+  (ByrnePurgeBlock "NODE_SIDE")
 
   (ByrneInsertBlock
-    "START_Z_3_WIN"
+    "NODE_SIDE"
     pause
   )
 
@@ -24,11 +24,6 @@
 
   (ByrneGenericCord startPt)
 
-  ;; =========================
-  ;; BOM
-  ;; =========================
-
-  (ByrneAddBOM "START Z 3 WINDOWS" 1)
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -36,7 +31,7 @@
 
   (ByrneEnd)
 
-  (princ "\n START Z 3 WINDOWS  insertado correctamente.")
+  (princ "\nNODE insertado correctamente.")
   (princ)
 
 )

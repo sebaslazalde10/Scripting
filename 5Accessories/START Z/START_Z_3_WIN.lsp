@@ -1,18 +1,18 @@
-(defun c:AXIL_XACC (/ startPt)
+(defun c:START_Z_3WINACC_REAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_AXIL_X" "255, 0, 255")
+  (ByrneStart "BYRNE_START_Z_3_WIN" "255, 255, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota AXIL_X: ")
+  (prompt "\nInserta y rota START_Z_3_WIN: ")
 
-  (ByrnePurgeBlock "AXIL_X")
+  (ByrnePurgeBlock "START_Z_3_WIN")
 
   (ByrneInsertBlock
-    "AXIL_X"
+    "START_Z_3_WIN"
     pause
   )
 
@@ -28,7 +28,7 @@
   ;; BOM
   ;; =========================
 
-  (ByrneAddBOM "AXIL X" 1)
+  (ByrneAddBOM "START Z 3 WINDOWS" 1)
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -36,7 +36,7 @@
 
   (ByrneEnd)
 
-  (princ "\nAXIL X insertado correctamente.")
+  (princ "\n START Z 3 WINDOWS  insertado correctamente.")
   (princ)
 
 )

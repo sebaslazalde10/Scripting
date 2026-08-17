@@ -1,4 +1,4 @@
-(defun c:ELLORAB5WINACC (/ startPt)
+(defun c:GEN_ELLORAB5WINACC (/ startPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_ELLORA_B_5_WIN" "255, 0, 255")

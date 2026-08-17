@@ -133,8 +133,8 @@
   (command "_.PLINE"
            startPt
            "_W"
-           3.0
-           3.0
+           1.0
+           1.0
   )
 
   (while (> (getvar "CMDACTIVE") 0)

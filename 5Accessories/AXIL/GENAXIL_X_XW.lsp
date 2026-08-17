@@ -1,18 +1,18 @@
-(defun c:START_Z_2WINACC_REAL (/ startPt)
+(defun c:GEN_AXIL_XACC (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_START_Z_2_WIN" "255, 0, 255")
+  (ByrneStart "BYRNE_AXIL_X" "255, 0, 255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota START Z 2 WINDOWS: ")
+  (prompt "\nInserta y rota AXIL_X: ")
 
-  (ByrnePurgeBlock "START_Z_2_WIN")
+  (ByrnePurgeBlock "AXIL_X")
 
   (ByrneInsertBlock
-    "START_Z_2_WIN"
+    "AXIL_X"
     pause
   )
 
@@ -24,6 +24,11 @@
 
   (ByrneGenericCord startPt)
 
+  ;; =========================
+  ;; BOM
+  ;; =========================
+
+  (ByrneAddBOM "AXIL X" 1)
 
   ;; =========================
   ;; RESTAURAR ENTORNO
@@ -31,7 +36,7 @@
 
   (ByrneEnd)
 
-  (princ "\nStart Z 2 Windows insertado correctamente.")
+  (princ "\nAXIL X insertado correctamente.")
   (princ)
 
 )

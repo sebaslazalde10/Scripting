@@ -1,18 +1,18 @@
-(defun c:MHOB4WINACC (/ startPt)
+(defun c:AXILZ3WINREAL (/ startPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_MHO_B" "255,0,255")
+  (ByrneStart "BYRNE_AXIL_Z_3_WIN" "255,0,255")
 
   ;; =========================
   ;; INSERTAR ACCESORIO
   ;; =========================
 
-  (prompt "\nInserta y rota MHO B: ")
+  (prompt "\nInserta y rota AXIL Z 3 WIN: ")
 
-  (ByrnePurgeBlock "MHOB_4_WIN_REAL")
+  (ByrnePurgeBlock "AXIL_Z_3_WIN")
 
   (ByrneInsertBlock
-    "MHOB_4_WIN_REAL"
+    "AXIL_Z_3_WIN"
     pause
   )
 
@@ -24,14 +24,10 @@
 
   (ByrneGenericCord startPt)
 
-  ;; =========================
-  ;; BOM
-  ;; =========================
-
-
   (ByrneEnd)
 
-  (princ "\nMHO B 4 WINDOWS insertado correctamente.")
+  (princ "\nAxil Z 3 Win insertado correctamente.")
   (princ)
 
 )
+
