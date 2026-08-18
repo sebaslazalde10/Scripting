@@ -81,6 +81,14 @@
     (symbolBlock . "SYM_HARDWIRE_POWER_INFEED")   
     (blockScale . 1.00)
 )
+  
+  (
+    (blockName  . "4T_CORDED_PLD_REAL")
+    (description . "XX\" Corded Power Entry")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYMBOL_4T_CORDED_PLD")   
+    (blockScale . 1.00)
+)
 
   
   (
@@ -90,7 +98,15 @@
     (symbolBlock . "SYM_BLUEJumper")
     (blockScale . 1.00)
 )
-  
+
+ (
+    (blockName  . "4T_JUMPER_SIDE_BEGIN_REAL_2")
+    (description . "XX\" F/F JUMPER")
+    (partNumber . "BE41917-X-X-XX-XX")
+    (symbolBlock . "SYM_BLUEJumper_4T")
+    (blockScale . 1.00)
+)
+
 (
     (blockName  . "4T_3WAY_BEGIN")
     (description . "XX\" F/F/M JUMPER")
@@ -108,12 +124,47 @@
 )
   
 (
-    (blockName  . "4T_DUPLEX_RECEPTACLE_UP")
-    (description . "DUPLEX RECEPTACLE")
-    (partNumber . "BE41917-X-X-XX-XX")
-    (symbolBlock . "4T_DUPLEX_RECEPTACLE_UP")
+    (blockName  . "4T_C1_DUPLEX_RECEPTACLE_UP_REAL")
+    (description . "RECEPTACLE BLOCK CIRCUIT 1")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "4T_C1_DUPLEX_RECEPTACLE_UP_REAL")   
     (blockScale . 0.06)
 )
+
+
+(
+    (blockName  . "4T_C2_DUPLEX_RECEPTACLE_UP_REAL")
+    (description . "RECEPTACLE BLOCK CIRCUIT 2")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "4T_C2_DUPLEX_RECEPTACLE_UP_REAL")   
+    (blockScale . 0.06)
+)
+  
+  (
+    (blockName  . "4T_C3_DUPLEX_RECEPTACLE_UP_REAL")
+    (description . "RECEPTACLE BLOCK CIRCUIT 2")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "4T_C3_DUPLEX_RECEPTACLE_UP_REAL")   
+    (blockScale . 0.06)
+)
+  
+  (
+    (blockName  . "4T_C4_DUPLEX_RECEPTACLE_UP_REAL")
+    (description . "RECEPTACLE BLOCK CIRCUIT 2")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "4T_C4_DUPLEX_RECEPTACLE_UP_REAL")   
+    (blockScale . 0.06)
+)
+  
+  (
+    (blockName  . "4T_C6_DUPLEX_RECEPTACLE_UP_REAL")
+    (description . "RECEPTACLE BLOCK CIRCUIT 2")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "4T_C6_DUPLEX_RECEPTACLE_UP_REAL")   
+    (blockScale . 0.06)
+)
+
+
   
 (
     (blockName  . "4T_TRIPLEX_RECEPTACLE_UP")
@@ -130,6 +181,34 @@
     (symbolBlock . "4T_TRIPLEX_RECEPTACLE_SIDE")
     (blockScale . 0.06)
 )
+  
+(
+    (blockName  . "4T_RCP_TO_RCP")
+    (description . "RECEPTACLE TO RECEPTACLE BLOCK CONNECTOR")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "4T_RCP_TO_RCP")   
+    (blockScale . 0.06)
+)
+
+  
+  (
+    (blockName  . "4T_JUMP_BEGIN_REAL")
+    (description . "XX\" F/F Jumper")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYMBOL_4T_JUMP")   
+    (blockScale . 1.00)
+)
+
+
+
+(
+    (blockName  . "4T_H_CONNECTOR_REAL")
+    (description . "H CONNECTOR, 4 WAY MALE")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "4T_H_CONNECTOR_REAL")   
+    (blockScale . 1.00)
+)
+
 
 ;=================================================
 ; 8 TRAC
