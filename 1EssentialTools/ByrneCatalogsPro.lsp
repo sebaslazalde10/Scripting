@@ -455,6 +455,7 @@
 ; INTERLINK
 ;=================================================
 
+  
 (
     (blockName  . "SMART_INFEED")
     (description . "IQ 2.0 CONTROL BOX")
@@ -462,6 +463,8 @@
     (symbolBlock . "SYM_SMART_INFEED")
     (blockScale . 1.00)
 )
+  
+  
   
   ;=================================================
 ; ACCESSORIES
@@ -505,6 +508,30 @@
     (description . "DEAN 3 WINDOW")
     (partNumber . "XXXX-XXX") 
     (symbolBlock . "DEAN_3_WINDOW")
+    (blockScale . 0.06)
+)
+  
+(
+    (blockName  . "DEAN_EM_3_WINDOW_REAL")
+    (description . "DEAN 3 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "DEAN_EM_3_WINDOW_REAL")
+    (blockScale . 0.018)
+)
+  
+  (
+    (blockName  . "DEAN_UM_3_WINDOW_REAL")
+    (description . "DEAN 3 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "DEAN_UM_3_WINDOW_REAL")
+    (blockScale . 0.06)
+)
+
+(
+    (blockName  . "DUBBEL_2P_1AC_REAL")
+    (description . "DUBBEL 2P 1AC")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "DUBBEL_2P_1AC_REAL")
     (blockScale . 0.06)
 )
 
@@ -725,6 +752,14 @@
     (blockScale . 0.06)
 )
 
+  
+  (
+    (blockName  . "START_ZM_4_WINDOWS_REAL")
+    (description . "START Z 4 WINDOWS")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "START_ZM_4_WINDOWS_REAL")
+    (blockScale . 0.02)
+)
 )
 
 )

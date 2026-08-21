@@ -7,7 +7,7 @@
   (setq oldPlineWid (getvar "PLINEWID"))
 
   ;; Cable de 0.5"
-  (setvar "PLINEWID" 1)
+  (setvar "PLINEWID" 0.5)
 
   ;; =========================
   ;; DIBUJAR CABLE
