@@ -339,3 +339,169 @@
   (ByrneEnd)
   (princ)
 )
+
+(vl-load-com)
+
+;; --- FUNCIONES AUXILIARES PARA EXCEL ---
+(defun ByrnePutCell (sheet row col val / cellVar cellObj)
+  ;; Extrae la celda del Variant y asigna el valor
+  (setq cellVar (vlax-get-property (vlax-get-property sheet 'Cells) 'Item row col))
+  (setq cellObj (vlax-variant-value cellVar))
+  (vlax-put-property cellObj 'Value2 val)
+)
+
+(defun ByrneSetColWidth (sheet col width / cellVar cellObj colObj)
+  ;; Extrae la celda, pide la columna (que ya viene como objeto) y ajusta
+  (setq cellVar (vlax-get-property (vlax-get-property sheet 'Cells) 'Item 1 col))
+  (setq cellObj (vlax-variant-value cellVar))
+  
+  ;; 'EntireColumn' devuelve el objeto directo, no un variant
+  (setq colObj (vlax-get-property cellObj 'EntireColumn))
+  
+  (vlax-put-property colObj 'ColumnWidth width)
+)
+;; --- RUTINA PRINCIPAL ---
+(defun ByrneExportMatrixToExcel (/ acadObj doc layouts lay layoutName
+                                   viewportObj viewportEname components allComponents
+                                   masterBOM project layoutBOMs localBOM
+                                   layoutNames bomEntry item desc partNum qty
+                                   excelApp wbCollection wb sheet
+                                   row col localEntry)
+  
+  (setq acadObj (vlax-get-acad-object))
+  (setq doc (vla-get-ActiveDocument acadObj))
+  (setq layouts (vla-get-Layouts doc))
+
+  ;; Master Scan para sincronía de globos
+  (setq project (ByrneGetProjectScan))
+  (if (not project) (setq project (ByrneBuildProjectScan)))
+
+  (setq allComponents nil)
+  (setq layoutBOMs nil)
+  (setq layoutNames nil)
+
+  ;; 1. RECOPILACIÓN DE DATOS (Master y Locales)
+  (vlax-for lay layouts
+    (setq layoutName (vla-get-Name lay))
+    (if (/= (strcase layoutName) "MODEL")
+        (progn
+            (setq viewportObj (ByrneGetLayoutViewport layoutName))
+            (if viewportObj
+                (progn
+                    (setq viewportEname (vlax-vla-object->ename viewportObj))
+                    (setq components (ByrneResolveComponents viewportEname))
+                    (if components
+                        (progn
+                            (setq allComponents (append allComponents components))
+                            (setq localBOM (ByrneBuildInternalBOM components))
+                            (if (and project localBOM)
+                                (setq localBOM (ByrneApplyGlobalNumbering localBOM project))
+                            )
+                            (setq layoutBOMs (cons (cons layoutName localBOM) layoutBOMs))
+                            (setq layoutNames (cons layoutName layoutNames))
+                        )
+                    )
+                )
+            )
+        )
+    )
+  )
+
+  (setq layoutBOMs (reverse layoutBOMs))
+  (setq layoutNames (reverse layoutNames))
+
+  ;; 2. CONSTRUCCIÓN EN EXCEL
+  (if allComponents
+      (progn
+          (setq masterBOM (ByrneBuildInternalBOM allComponents))
+          (if (and project masterBOM)
+              (setq masterBOM (ByrneApplyGlobalNumbering masterBOM project))
+          )
+
+          (princ "\nIniciando Excel... ")
+          ;; Iniciar instancia de Excel mediante COM
+          (setq excelApp (vlax-get-or-create-object "Excel.Application"))
+          (if excelApp
+              (progn
+                  (vla-put-visible excelApp :vlax-true)
+                  (setq wbCollection (vlax-get-property excelApp 'Workbooks))
+                  (setq wb (vlax-invoke-method wbCollection 'Add))
+                  (setq sheet (vlax-get-property wb 'ActiveSheet))
+
+                  ;; Definir anchos fijos de columnas principales
+                  (ByrneSetColWidth sheet 1 6.0)   ;; NO.
+                  (ByrneSetColWidth sheet 2 45.0)  ;; DESCRIPTION
+                  (ByrneSetColWidth sheet 3 25.0)  ;; PART NUMBER
+
+                  ;; Imprimir Encabezados Fijos
+                  (setq row 1)
+                  (ByrnePutCell sheet row 1 "NO.")
+                  (ByrnePutCell sheet row 2 "DESCRIPTION")
+                  (ByrnePutCell sheet row 3 "PART NUMBER")
+
+                  ;; Imprimir Encabezados de Layouts y ajustar sus anchos
+                  (setq col 4)
+                  (foreach lName layoutNames
+                      (ByrnePutCell sheet row col lName)
+                      (ByrneSetColWidth sheet col 6.0)       ;; Ancho Columna de Cantidades
+                      (ByrneSetColWidth sheet (1+ col) 6.0)  ;; Ancho Columna Vacía
+                      (setq col (+ col 2))                   ;; Saltamos de 2 en 2
+                  )
+
+                  ;; Imprimir Filas de Componentes
+                  (setq row 2)
+                  (foreach bomEntry masterBOM
+                      (setq item (itoa (cdr (assoc 'item bomEntry))))
+                      (setq desc (cdr (assoc 'description bomEntry)))
+                      (setq partNum (cdr (assoc 'partNumber bomEntry)))
+
+                      (if (not desc) (setq desc "N/A"))
+                      (if (not partNum) (setq partNum "N/A"))
+
+                      (ByrnePutCell sheet row 1 item)
+                      (ByrnePutCell sheet row 2 desc)
+                      (ByrnePutCell sheet row 3 partNum)
+
+                      (setq col 4)
+                      (foreach lName layoutNames
+                          (setq localBOM (cdr (assoc lName layoutBOMs)))
+                          (setq qty 0)
+                          
+                          (foreach localEntry localBOM
+                              (if (= (cdr (assoc 'item localEntry)) (cdr (assoc 'item bomEntry)))
+                                  (setq qty (cdr (assoc 'qty localEntry)))
+                              )
+                          )
+                          
+                          ;; Escribir la cantidad
+                          (if (> qty 0)
+                              (ByrnePutCell sheet row col (itoa qty))
+                              (ByrnePutCell sheet row col "0")
+                          )
+                          ;; Dejamos la columna col+1 vacía intacta y avanzamos
+                          (setq col (+ col 2))
+                      )
+                      (setq row (1+ row))
+                  )
+                  
+                  ;; Liberar memoria COM
+                  (vlax-release-object sheet)
+                  (vlax-release-object wb)
+                  (vlax-release-object wbCollection)
+                  (vlax-release-object excelApp)
+                  (princ "\n¡Exportación a Excel finalizada con éxito!")
+              )
+              (princ "\nError: No se pudo iniciar Microsoft Excel. Asegúrate de tenerlo instalado.")
+          )
+      )
+      (princ "\nNo se encontraron componentes validos en los layouts.")
+  )
+  (princ)
+)
+
+(defun c:BOM2EXCEL ()
+  (ByrneStart "BYRNE_BOM_EXCEL" "0, 0, 0")
+  (ByrneExportMatrixToExcel)
+  (ByrneEnd)
+  (princ)
+)
