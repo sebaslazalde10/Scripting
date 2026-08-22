@@ -44,7 +44,7 @@
 
 (defun c:BOMMING
        (/ doc currentSpace insPt rows cols row col tableObj
-          viewportObj viewportEname components internalBOM
+          viewportObj viewportEname components internalBOM project
           bomEntry rawBlockName catEntry symbolBlock blkID customScale
           cwItem cwSymbol cwDesc cwQty
           rHeight textHeight fallbackScale)
@@ -70,6 +70,17 @@
             (setq viewportEname (vlax-vla-object->ename viewportObj))
             (setq components (ByrneResolveComponents viewportEname))
             (setq internalBOM (ByrneBuildInternalBOM components))
+
+            ;; =======================================
+            ;; ALINEAR NUMERACIÓN CON LOS GLOBOS
+            ;; (usa el mismo Master Project Scan que
+            ;; BYRNEAUTOBALLOON / UPANDOWN / LEFTANDRIGHT)
+            ;; =======================================
+            (setq project (ByrneGetProjectScan))
+            (if (not project) (setq project (ByrneBuildProjectScan)))
+            (if (and project internalBOM)
+                (setq internalBOM (ByrneApplyGlobalNumbering internalBOM project))
+            )
 
             (if internalBOM
                 (progn
@@ -201,83 +212,130 @@
     (princ)
 )
 
-;=================================================
-; ByrneExportCSV.lsp
-; Byrne México CAD Automation Library
-;
-; Módulo de exportación de BOM a formato CSV
-;=================================================
-
-(vl-load-com)
-
-
-(defun ByrneExportToCSV (internalBOM / csvFile f bomEntry item rawBlockName catEntry desc partNum qty lineStr)
-  ;; 1. Solicitar al usuario la ruta y nombre del archivo
-  (setq csvFile (getfiled "Export BOM as CSV" "Byrne_Bill_of_Materials" "csv" 1))
+(defun ByrneExportClusteredCSV (/ csvFile f acadObj doc layouts lay layoutName
+                                  viewportObj viewportEname components allComponents
+                                  masterBOM project layoutBOMs localBOM
+                                  layoutNames bomEntry item desc partNum qty
+                                  headerStr lineStr localEntry)
+  (setq csvFile (getfiled "Export Matrix BOM as CSV" "Byrne_Matrix_BOM" "csv" 1))
   
   (if csvFile
     (progn
-      ;; 2. Abrir el archivo en modo escritura ("w" = write)
-      (setq f (open csvFile "w"))
-      
-      ;; 3. Escribir encabezados
-      (write-line "ITEM,DESCRIPTION,PART NUMBER,QTY" f)
-      
-      ;; 4. Iterar sobre el internalBOM
-      (foreach bomEntry internalBOM
-        
-        ;; Extraer datos básicos del BOMEntry
-        (setq item (itoa (cdr (assoc 'item bomEntry))))
-        (setq rawBlockName (cdr (assoc 'blockName bomEntry)))
-        (setq desc (cdr (assoc 'description bomEntry)))
-        (setq qty (itoa (cdr (assoc 'qty bomEntry))))
-        
-        ;; Consultar ByrneCatalogsPro.lsp para obtener el NO. DE PARTE
-        (setq catEntry (ByrneGetCatalogEntry rawBlockName))
-        (setq partNum (cdr (assoc 'partNumber catEntry)))
-        
-        ;; Validaciones de seguridad (evitar errores de tipo 'nil')
-        (if (not desc) (setq desc "N/A"))
-        (if (not partNum) (setq partNum "N/A"))
-        
-        ;; Limpiar comas para no romper la estructura del CSV
-        (setq desc (vl-string-translate "," " " desc))
-        (setq partNum (vl-string-translate "," " " partNum))
-        
-        ;; 5. Construir y escribir la fila (Omitiendo la columna de Símbolo)
-        (setq lineStr (strcat item "," desc "," partNum "," qty))
-        (write-line lineStr f)
+      (setq acadObj (vlax-get-acad-object))
+      (setq doc (vla-get-ActiveDocument acadObj))
+      (setq layouts (vla-get-Layouts doc))
+
+      ;; Master Scan para sincronía de globos
+      (setq project (ByrneGetProjectScan))
+      (if (not project) (setq project (ByrneBuildProjectScan)))
+
+      (setq allComponents nil)
+      (setq layoutBOMs nil)
+      (setq layoutNames nil)
+
+      ;; RECOPILACIÓN: Extraer todo para crear la BOM General y las BOM locales
+      (vlax-for lay layouts
+        (setq layoutName (vla-get-Name lay))
+        (if (/= (strcase layoutName) "MODEL")
+            (progn
+                (setq viewportObj (ByrneGetLayoutViewport layoutName))
+                (if viewportObj
+                    (progn
+                        (setq viewportEname (vlax-vla-object->ename viewportObj))
+                        (setq components (ByrneResolveComponents viewportEname))
+                        
+                        (if components
+                            (progn
+                                ;; Sumar a la cubeta general para la Master BOM
+                                (setq allComponents (append allComponents components))
+                                
+                                ;; Construir y guardar la BOM específica de este Layout
+                                (setq localBOM (ByrneBuildInternalBOM components))
+                                (if (and project localBOM)
+                                    (setq localBOM (ByrneApplyGlobalNumbering localBOM project))
+                                )
+                                ;; Guardar en memoria: ( "NombreLayout" . listaBOMLocal )
+                                (setq layoutBOMs (cons (cons layoutName localBOM) layoutBOMs))
+                                (setq layoutNames (cons layoutName layoutNames))
+                            )
+                        )
+                    )
+                )
+            )
+        )
       )
-      
-      ;; 6. Cerrar el archivo para liberar la memoria
-      (close f)
-      (princ (strcat "\nSuccessful exportation, file saved to: " csvFile))
+
+      ;; Invertir listas para que los layouts aparezcan en el orden original del archivo
+      (setq layoutBOMs (reverse layoutBOMs))
+      (setq layoutNames (reverse layoutNames))
+
+      ;; CONSTRUCCIÓN MATRIZ: Crear el CSV basado en la BOM General
+      (if allComponents
+          (progn
+              ;; Construir la BOM General global
+              (setq masterBOM (ByrneBuildInternalBOM allComponents))
+              (if (and project masterBOM)
+                  (setq masterBOM (ByrneApplyGlobalNumbering masterBOM project))
+              )
+
+              (setq f (open csvFile "w"))
+              
+              ;; 1. Imprimir Encabezados
+              (setq headerStr "NO. DE ITEM,DESCRIPTION,PART NUMBER")
+              (foreach lName layoutNames
+                  ;; Agregamos el nombre del layout y una columna vacía (coma extra)
+                  (setq headerStr (strcat headerStr "," lName ","))
+              )
+              (write-line headerStr f)
+
+              ;; 2. Imprimir Filas basadas en la BOM General
+              (foreach bomEntry masterBOM
+                  (setq item (itoa (cdr (assoc 'item bomEntry))))
+                  (setq desc (cdr (assoc 'description bomEntry)))
+                  (setq partNum (cdr (assoc 'partNumber bomEntry)))
+
+                  (if (not desc) (setq desc "N/A"))
+                  (if (not partNum) (setq partNum "N/A"))
+                  
+                  ;; Limpieza de comas
+                  (setq desc (vl-string-translate "," " " desc))
+                  (setq partNum (vl-string-translate "," " " partNum))
+
+                  ;; Iniciar la fila con la info base del componente
+                  (setq lineStr (strcat item "," desc "," partNum))
+
+                  ;; 3. Cruzar la info con las columnas de cada layout
+                  (foreach lName layoutNames
+                      (setq localBOM (cdr (assoc lName layoutBOMs)))
+                      (setq qty 0) ; Por defecto es 0 si no lo encuentra
+                      
+                      ;; Buscar el item actual dentro del BOM de este layout específico
+                      (foreach localEntry localBOM
+                          (if (= (cdr (assoc 'item localEntry)) (cdr (assoc 'item bomEntry)))
+                              (setq qty (cdr (assoc 'qty localEntry)))
+                          )
+                      )
+                      
+                      ;; Agregar la cantidad y la coma extra para la columna vacía
+                      (setq lineStr (strcat lineStr "," (itoa qty) ","))
+                  )
+                  
+                  (write-line lineStr f)
+              )
+              (close f)
+              (princ (strcat "\nExportación de Matriz exitosa, archivo guardado en: " csvFile))
+          )
+          (princ "\nNo se encontraron componentes validos en los layouts.")
+      )
     )
-    (princ "\nExportation cancelled by the user.")
+    (princ "\nExportación cancelada por el usuario.")
   )
   (princ)
 )
 
-(defun c:BOM2CSV (/ viewportObj viewportEname components internalBOM)
-  (ByrneStart "BYRNE_BOM_CSV" "0, 0, 0")
-  
-  (setq viewportObj (ByrneGetViewport))
-
-  (if viewportObj
-      (progn
-          (setq viewportEname (vlax-vla-object->ename viewportObj))
-          (setq components (ByrneResolveComponents viewportEname))
-          (setq internalBOM (ByrneBuildInternalBOM components))
-
-          (if internalBOM
-              ;; Si el BOM se generó correctamente, disparamos la exportación
-              (ByrneExportToCSV internalBOM)
-              (princ "\nNo Byrne components found inside viewport.")
-          )
-      )
-      (princ "\nNo viewport selected.")
-  )
-  
+(defun c:BOM2CSV ()
+  (ByrneStart "BYRNE_BOM_MATRIX" "0, 0, 0")
+  (ByrneExportClusteredCSV)
   (ByrneEnd)
   (princ)
 )

@@ -46,7 +46,7 @@
 ;=================================================
 (defun c:GENBOMS
        (/ acadObj doc layouts lay layoutName currentLayout currentSpace
-          viewportObj viewportEname components internalBOM
+          viewportObj viewportEname components internalBOM project
           rows cols row col tableObj
           bomEntry rawBlockName catEntry symbolBlock blkID customScale
           cwItem cwSymbol cwDesc cwQty rHeight textHeight fallbackScale
@@ -82,6 +82,15 @@
 
     (setq layouts (vla-get-Layouts doc))
 
+    ;; =======================================================
+    ;; MASTER PROJECT SCAN (una sola vez, antes del loop)
+    ;; Misma fuente que usan los globos, para que la
+    ;; numeracion de TODAS las tablas coincida entre si
+    ;; y con los globos.
+    ;; =======================================================
+    (setq project (ByrneGetProjectScan))
+    (if (not project) (setq project (ByrneBuildProjectScan)))
+
     (vlax-for lay layouts
         (setq layoutName (vla-get-Name lay))
 
@@ -98,6 +107,11 @@
                         (setq viewportEname (vlax-vla-object->ename viewportObj))
                         (setq components (ByrneResolveComponents viewportEname))
                         (setq internalBOM (ByrneBuildInternalBOM components))
+
+                        ;; ALINEAR NUMERACION CON LOS GLOBOS
+                        (if (and project internalBOM)
+                            (setq internalBOM (ByrneApplyGlobalNumbering internalBOM project))
+                        )
 
                         (if internalBOM
                             (progn

@@ -150,6 +150,58 @@
 )
 
 ;=================================================
+; ByrneApplyGlobalNumbering
+;
+; Toma un BOM local (por viewport, numerado 1,2,3...)
+; y reemplaza el 'item' de cada entrada por el número
+; GLOBAL del proyecto (el mismo que usan los globos),
+; consultando el Master Project Scan.
+;
+; No reordena nada: como tanto el BOM local como el
+; Master Scan recorren *ByrneCatalogPro* en el mismo
+; orden, la numeración global resultante ya queda
+; ascendente (ej. 2, 5, 7 en vez de 1, 2, 3).
+;=================================================
+
+(defun ByrneApplyGlobalNumbering (localBOM project
+                                  / blockName
+                                    globalItem
+                                    newEntry
+                                    newBOM)
+
+    (setq newBOM nil)
+
+    (foreach bomEntry localBOM
+
+        (setq blockName
+              (cdr (assoc 'blockName bomEntry)))
+
+        (setq globalItem
+              (ByrneGetGlobalItemNumber blockName project))
+
+        ;; Salvaguarda: si por alguna razon el bloque no
+        ;; aparece en el scan global, se conserva el item
+        ;; local en vez de dejarlo en blanco.
+        (if (not globalItem)
+            (setq globalItem
+                  (cdr (assoc 'item bomEntry)))
+        )
+
+        (setq newEntry
+              (subst (cons 'item globalItem)
+                     (assoc 'item bomEntry)
+                     bomEntry))
+
+        (setq newBOM
+              (append newBOM (list newEntry)))
+
+    )
+
+    newBOM
+
+)
+
+;=================================================
 ; DEBUG
 ;=================================================
 
