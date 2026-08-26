@@ -680,15 +680,7 @@
   ;; Ejecutar PUBLISH
   ;; ----------------------------------------------------------
 
-  (setq pubResult
-        (vl-catch-all-apply
-          'vl-cmdf
-          (list
-            "_.-PUBLISH"
-            dsdPath
-          )
-        )
-  )
+  (command "_.-PUBLISH" dsdPath)
 
 
   ;; ==========================================================
@@ -724,35 +716,18 @@
   ;; 8. Resultado
   ;; ==========================================================
 
-  (if
-    (vl-catch-all-error-p pubResult)
-
-    (princ
-      (strcat
-        "\n[ERROR] PUBLISH: "
-        (vl-catch-all-error-message pubResult)
-      )
-    )
-
-    ;; PUBLISH no necesariamente termina de forma instantánea
-    ;; en todas las configuraciones, así que comprobamos el PDF.
-    (if
-      (findfile pdfPath)
-
-      (princ
-        (strcat
-          "\n[ÉXITO] PDF generado:"
-          "\n"
-          pdfPath
-        )
-      )
-
-      (princ
-        "\n[ADVERTENCIA] PUBLISH terminó pero todavía no se encontró el PDF."
-      )
+ (if (findfile pdfPath)
+  (princ
+    (strcat
+      "\n[ÉXITO] PDF generado:"
+      "\n"
+      pdfPath
     )
   )
-
+  (princ
+    "\n[ADVERTENCIA] PUBLISH terminó pero no se encontró el PDF."
+  )
+)
 
   ;; Restaurar error handler
   (setq *error* oldErr)
