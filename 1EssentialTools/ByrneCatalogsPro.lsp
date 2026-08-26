@@ -37,38 +37,7 @@
     (blockScale . 1.00)
 )
   
-(
-    (blockName  . "newJumperOrangeEndEnd")
-    (description . "XX\" JUMPER")
-    (partNumber . "PATTERN: BE07592-E-XX")
-    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
-    (blockScale . 1.00)
-)
 
-
-(
-    (blockName  . "newJumperOrangeEndEnd2")
-    (description . "XX\" JUMPER")
-    (partNumber . "PATTERN: BE07592-E-XX")
-    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
-    (blockScale . 1.00)
-)
-  
-(
-    (blockName  . "newJumperOrangeEndEnd3")
-    (description . "XX\" JUMPER")
-    (partNumber . "PATTERN: BE07592-E-XX")
-    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
-    (blockScale . 1.00)
-)
-  
-(
-    (blockName  . "newJumperOrangeEndEnd4")
-    (description . "XX\" JUMPER")
-    (partNumber . "PATTERN: BE07592-E-XX")
-    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
-    (blockScale . 1.00)
-)
 
 ;=================================================
 ; 4 TRAC
@@ -398,6 +367,30 @@
 )
   
   (
+    (blockName  . "BLUEJUMPERFINISH2")
+    (description . "XX\" F/F PASS THRU")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
+  
+  (
+    (blockName  . "BLUEJUMPERFINISH3")
+    (description . "XX\" F/F PASS THRU")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
+  
+  (
+    (blockName  . "BLUEJUMPERFINISH4")
+    (description . "XX\" F/F PASS THRU")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
+  
+  (
     (blockName  . "BLUEJUMPEREND")
     (description . "XX\" F/F/M 3-WAY PASS THRU")
     (partNumber . "XXXX-XXX")
@@ -405,11 +398,101 @@
     (blockScale . 0.0015)
 )
 
+  
+  (
+    (blockName  . "BLUEJUMPEREND2")
+    (description . "XX\" F/F/M 3-WAY PASS THRU")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_3WAY_BLUEJumper")
+    (blockScale . 0.0015)
+)
+  
+  (
+    (blockName  . "BLUEJUMPEREND3")
+    (description . "XX\" F/F/M 3-WAY PASS THRU")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "SYM_3WAY_BLUEJumper")
+    (blockScale . 0.0015)
+)
 
 ;=================================================
 ; PATTERN
 ;=================================================
+
+  (
+    (blockName  . "CordedEndConnectorPat")
+    (description . "XX\" POWER INFEED")
+    (partNumber . "BE07590-E-72")
+    (symbolBlock . "SYM_CORD_CONNECTOR") ;;OK
+    (blockScale . 1.00)
+)
   
+   (
+    (blockName  . "CordedEndConnectorPat1")
+    (description . "XX\" POWER INFEED")
+    (partNumber . "BE07590-E-72")
+    (symbolBlock . "SYM_CORD_CONNECTOR") ;;OK
+    (blockScale . 1.00)
+)
+  
+   (
+    (blockName  . "CordedEndConnectorPat2")
+    (description . "XX\" POWER INFEED")
+    (partNumber . "BE07590-E-72")
+    (symbolBlock . "SYM_CORD_CONNECTOR") ;;OK
+    (blockScale . 1.00)
+)
+  
+  (
+    (blockName  . "SNAPIN_DUPLEX_REAL")
+    (description . "SNAPIN DUPLEX REAL")
+    (partNumber . "BE010115-F-X-XX")
+    (symbolBlock . "SNAPIN_DUPLEX_REAL")
+    (blockScale . 0.03)
+)
+  
+  (
+    (blockName  . "GREY_BLOCK")
+    (description . "GREY CONNECTION BLOCK")
+    (partNumber . "BE07591-EF")
+    (symbolBlock . "GREY_BLOCK")
+    (blockScale . 0.06)
+)
+
+  (
+    (blockName  . "newJumperOrangeEndEndPat2")
+    (description . "XX\" JUMPER")
+    (partNumber . "PATTERN: BE07592-E-XX")
+    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
+    (blockScale . 1.00)
+)
+  
+  (
+    (blockName  . "newJumperOrangeEndEndPat")
+    (description . "XX\" JUMPER")
+    (partNumber . "PATTERN: BE07592-E-XX")
+    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
+    (blockScale . 1.00)
+)
+
+
+
+  
+(
+    (blockName  . "newJumperOrangeEndEndPat3")
+    (description . "XX\" JUMPER")
+    (partNumber . "PATTERN: BE07592-E-XX")
+    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
+    (blockScale . 1.00)
+)
+  
+(
+    (blockName  . "newJumperOrangeEndEndPat4")
+    (description . "XX\" JUMPER")
+    (partNumber . "PATTERN: BE07592-E-XX")
+    (symbolBlock . "SYM_NEW_JUMPER_ORANGE") ;;OK
+    (blockScale . 1.00)
+)
 
 (
     (blockName  . "WHITE_BLOCK")
@@ -435,13 +518,7 @@
     (blockScale . 0.06)
 )
 
-(
-    (blockName  . "GREY_BLOCK")
-    (description . "GREY CONNECTION BLOCK")
-    (partNumber . "BE07591-EF")
-    (symbolBlock . "GREY_BLOCK")
-    (blockScale . 0.06)
-)
+
 
 (
     (blockName  . "HCONNECTOR")
@@ -526,6 +603,22 @@
     (symbolBlock . "DEAN_UM_3_WINDOW_REAL")
     (blockScale . 0.06)
 )
+  
+  (
+    (blockName  . "DEAN_Z_2_WINDOW_REAL")
+    (description . "DEAN Z 2 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "DEAN_Z_2_WINDOW_REAL")
+    (blockScale . 0.06)
+)
+  
+   (
+    (blockName  . "DEAN_4_W_IN_SURFACE_2P_2AC_REAL")
+    (description . "DEAN Z 4 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "DEAN_4_W_IN_SURFACE_2P_2AC_REAL")
+    (blockScale . 0.06)
+)
 
 (
     (blockName  . "DUBBEL_2P_1AC_REAL")
@@ -583,6 +676,15 @@
     (partNumber . "XXXX-XXX")
     (symbolBlock . "HYDRA_ICON")   
     (blockScale . 1.00)
+)
+  
+  
+(
+    (blockName  . "M2X_4_WIN_REAL")
+    (description . "M2X 4 WINDOW")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "M2X_4_WIN_REAL")
+    (blockScale . 0.06)
 )
 
   
@@ -710,11 +812,23 @@
     (blockScale . 0.06)
 )
 
+  
+  
+  
+  
 (
     (blockName  . "START")
     (description . "START")
     (partNumber . "XXXX-XXX")
     (symbolBlock . "START")
+    (blockScale . 0.06)
+) 
+  
+  (
+    (blockName  . "START_UM_2_WIN_REAL")
+    (description . "START UM 2 WIN")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "START_UM_2_WIN_REAL")   
     (blockScale . 0.06)
 )
   

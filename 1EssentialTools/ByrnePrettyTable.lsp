@@ -340,39 +340,95 @@
   (princ)
 )
 
+
+
 (vl-load-com)
 
 ;; --- FUNCIONES AUXILIARES PARA EXCEL ---
 (defun ByrnePutCell (sheet row col val / cellVar cellObj)
-  ;; Extrae la celda del Variant y asigna el valor
   (setq cellVar (vlax-get-property (vlax-get-property sheet 'Cells) 'Item row col))
   (setq cellObj (vlax-variant-value cellVar))
   (vlax-put-property cellObj 'Value2 val)
 )
 
 (defun ByrneSetColWidth (sheet col width / cellVar cellObj colObj)
-  ;; Extrae la celda, pide la columna (que ya viene como objeto) y ajusta
   (setq cellVar (vlax-get-property (vlax-get-property sheet 'Cells) 'Item 1 col))
   (setq cellObj (vlax-variant-value cellVar))
-  
-  ;; 'EntireColumn' devuelve el objeto directo, no un variant
   (setq colObj (vlax-get-property cellObj 'EntireColumn))
-  
   (vlax-put-property colObj 'ColumnWidth width)
 )
+
+(defun ByrneColToLetter (col / resto letter)
+  (setq letter "")
+  (while (> col 0)
+    (setq resto (rem (1- col) 26))
+    (setq letter (strcat (chr (+ 65 resto)) letter))
+    (setq col (/ (1- col) 26))
+  )
+  letter
+)
+
+(defun ByrneMergeAndCenter (sheet row startCol endCol / col1Str col2Str rangeStr rangeObj)
+  (setq col1Str (ByrneColToLetter startCol))
+  (setq col2Str (ByrneColToLetter endCol))
+  (setq rangeStr (strcat col1Str (itoa row) ":" col2Str (itoa row))) 
+  (setq rangeObj (vlax-get-property sheet 'Range rangeStr))
+  
+  (vlax-invoke-method rangeObj 'Merge)
+  (vlax-put-property rangeObj 'HorizontalAlignment -4108) 
+)
+
+(defun ByrneMergeBox (sheet startRow startCol endRow endCol / col1Str col2Str rangeStr rangeObj)
+  (setq col1Str (ByrneColToLetter startCol))
+  (setq col2Str (ByrneColToLetter endCol))
+  (setq rangeStr (strcat col1Str (itoa startRow) ":" col2Str (itoa endRow)))
+  (setq rangeObj (vlax-get-property sheet 'Range rangeStr))
+  (vlax-invoke-method rangeObj 'Merge)
+)
+
+(defun ByrneSetCellFormat (sheet row col bgColor fontColor isBold alignCenter / cellVar cellObj interiorObj fontObj)
+  (setq cellVar (vlax-get-property (vlax-get-property sheet 'Cells) 'Item row col))
+  (setq cellObj (vlax-variant-value cellVar))
+  
+  (if bgColor
+      (progn
+          (setq interiorObj (vlax-get-property cellObj 'Interior))
+          (vlax-put-property interiorObj 'ColorIndex bgColor)
+      )
+  )
+  (if (or fontColor isBold)
+      (progn
+          (setq fontObj (vlax-get-property cellObj 'Font))
+          (if fontColor (vlax-put-property fontObj 'ColorIndex fontColor))
+          (if isBold (vlax-put-property fontObj 'Bold :vlax-true))
+      )
+  )
+  (if alignCenter
+      (vlax-put-property cellObj 'HorizontalAlignment -4108)
+  )
+)
+
 ;; --- RUTINA PRINCIPAL ---
 (defun ByrneExportMatrixToExcel (/ acadObj doc layouts lay layoutName
                                    viewportObj viewportEname components allComponents
                                    masterBOM project layoutBOMs localBOM
                                    layoutNames bomEntry item desc partNum qty
-                                   excelApp wbCollection wb sheet
-                                   row col localEntry)
+                                   excelApp wbCollection wb sheet fontGlobalObj winObj
+                                   headerRow row col localEntry formulaStr
+                                   qtyColLetter multColLetter formulaColLetter
+                                   sumArgs sumFormula priceTotalFormula
+                                   lastClusterCol dateStr dwgName)
   
   (setq acadObj (vlax-get-acad-object))
   (setq doc (vla-get-ActiveDocument acadObj))
   (setq layouts (vla-get-Layouts doc))
 
-  ;; Master Scan para sincronía de globos
+  ;; Obtener nombre del archivo de AutoCAD activo (sin extensión)
+  (setq dwgName (getvar "DWGNAME"))
+  (if (wcmatch (strcase dwgName) "*.DWG")
+      (setq dwgName (substr dwgName 1 (- (strlen dwgName) 4)))
+  )
+
   (setq project (ByrneGetProjectScan))
   (if (not project) (setq project (ByrneBuildProjectScan)))
 
@@ -380,7 +436,7 @@
   (setq layoutBOMs nil)
   (setq layoutNames nil)
 
-  ;; 1. RECOPILACIÓN DE DATOS (Master y Locales)
+  ;; 1. RECOPILACIÓN DE DATOS
   (vlax-for lay layouts
     (setq layoutName (vla-get-Name lay))
     (if (/= (strcase layoutName) "MODEL")
@@ -419,7 +475,6 @@
           )
 
           (princ "\nIniciando Excel... ")
-          ;; Iniciar instancia de Excel mediante COM
           (setq excelApp (vlax-get-or-create-object "Excel.Application"))
           (if excelApp
               (progn
@@ -428,28 +483,94 @@
                   (setq wb (vlax-invoke-method wbCollection 'Add))
                   (setq sheet (vlax-get-property wb 'ActiveSheet))
 
-                  ;; Definir anchos fijos de columnas principales
-                  (ByrneSetColWidth sheet 1 6.0)   ;; NO.
-                  (ByrneSetColWidth sheet 2 45.0)  ;; DESCRIPTION
-                  (ByrneSetColWidth sheet 3 25.0)  ;; PART NUMBER
+                  ;; FORMATO GLOBAL: Arial 16
+                  (setq fontGlobalObj (vlax-get-property (vlax-get-property sheet 'Cells) 'Font))
+                  (vlax-put-property fontGlobalObj 'Name "Arial")
+                  (vlax-put-property fontGlobalObj 'Size 16)
+                  (vlax-release-object fontGlobalObj)
 
-                  ;; Imprimir Encabezados Fijos
-                  (setq row 1)
+                  ;; ZOOM AL 80%
+                  (setq winObj (vlax-get-property excelApp 'ActiveWindow))
+                  (vlax-put-property winObj 'Zoom 80)
+                  (vlax-release-object winObj)
+
+                  ;; Anchos de columnas principales
+                  (ByrneSetColWidth sheet 1 8.0)
+                  (ByrneSetColWidth sheet 2 55.0)
+                  (ByrneSetColWidth sheet 3 30.0)
+
+                  ;; --- BLOQUE DE ENCABEZADO SUPERIOR ---
+                  ;; 1. Campo "To:" (inicia en la fila 7)
+                  (ByrnePutCell sheet 7 1 "To:")
+                  (ByrneSetCellFormat sheet 7 1 nil nil :vlax-true nil)
+                  (ByrneMergeBox sheet 8 1 11 3) ;; Cuadro delimita de fila 8 a 11
+
+                  ;; 2. Fecha (Date:)
+                  (setq dateStr (menucmd "M=$(edtime,$(getvar,date),M/D/YYYY)"))
+                  (ByrnePutCell sheet 6 15 "Date:")
+                  (ByrneSetCellFormat sheet 6 15 nil nil :vlax-true nil)
+                  (ByrnePutCell sheet 6 17 dateStr)
+                  (ByrneSetCellFormat sheet 6 17 nil nil nil :vlax-true)
+
+                  ;; 3. Proyecto (Obtiene nombre del plano actual)
+                  (ByrnePutCell sheet 11 15 "Project:")
+                  (ByrneSetCellFormat sheet 11 15 nil nil :vlax-true nil)
+                  (ByrnePutCell sheet 11 17 dwgName)
+                  (ByrneSetCellFormat sheet 11 17 nil nil nil :vlax-true)
+
+                  ;; 4. Banner "PHASE 2 SYSTEM"
+                  (setq lastClusterCol (+ 3 (* (length layoutNames) 3)))
+                  (ByrneMergeAndCenter sheet 12 4 lastClusterCol)
+                  (ByrnePutCell sheet 12 4 "PHASE 2 SYSTEM")
+                  (ByrneSetCellFormat sheet 12 4 nil nil :vlax-true :vlax-true)
+
+                  ;; --- ENCABEZADOS DE TABLA (FILA 13) ---
+                  (setq headerRow 13)
+                  (setq row headerRow)
+
                   (ByrnePutCell sheet row 1 "NO.")
-                  (ByrnePutCell sheet row 2 "DESCRIPTION")
-                  (ByrnePutCell sheet row 3 "PART NUMBER")
+                  (ByrneSetCellFormat sheet row 1 nil nil :vlax-true :vlax-true)
 
-                  ;; Imprimir Encabezados de Layouts y ajustar sus anchos
+                  (ByrnePutCell sheet row 2 "DESCRIPTION")
+                  (ByrneSetCellFormat sheet row 2 nil nil :vlax-true nil)
+
+                  (ByrnePutCell sheet row 3 "PART NUMBER")
+                  (ByrneSetCellFormat sheet row 3 nil nil :vlax-true nil)
+
+                  ;; Encabezados de Layouts
                   (setq col 4)
                   (foreach lName layoutNames
                       (ByrnePutCell sheet row col lName)
-                      (ByrneSetColWidth sheet col 6.0)       ;; Ancho Columna de Cantidades
-                      (ByrneSetColWidth sheet (1+ col) 6.0)  ;; Ancho Columna Vacía
-                      (setq col (+ col 2))                   ;; Saltamos de 2 en 2
+                      (ByrneSetCellFormat sheet row col 15 nil :vlax-true :vlax-true) 
+
+                      (ByrnePutCell sheet row (+ col 1) "X")  
+                      (ByrnePutCell sheet row (+ col 2) 1)    
+                      (ByrneSetCellFormat sheet row (+ col 1) nil 5 :vlax-true :vlax-true)
+                      (ByrneSetCellFormat sheet row (+ col 2) nil 5 :vlax-true :vlax-true)
+                      
+                      (ByrneSetColWidth sheet col 8.0)
+                      (ByrneSetColWidth sheet (+ col 1) 4.0) 
+                      (ByrneSetColWidth sheet (+ col 2) 8.0)
+                      
+                      (setq col (+ col 3)) 
                   )
 
-                  ;; Imprimir Filas de Componentes
-                  (setq row 2)
+                  ;; Encabezados Finales
+                  (ByrnePutCell sheet row col "TOTAL")
+                  (ByrneSetCellFormat sheet row col 10 nil :vlax-true :vlax-true)
+
+                  (ByrnePutCell sheet row (+ col 1) "U. PRICE")
+                  (ByrneSetCellFormat sheet row (+ col 1) nil nil :vlax-true :vlax-true)
+
+                  (ByrnePutCell sheet row (+ col 2) "TOTAL")
+                  (ByrneSetCellFormat sheet row (+ col 2) nil nil :vlax-true :vlax-true)
+
+                  (ByrneSetColWidth sheet col 10.0)
+                  (ByrneSetColWidth sheet (+ col 1) 15.0)
+                  (ByrneSetColWidth sheet (+ col 2) 15.0)
+
+                  ;; --- FILAS DE COMPONENTES ---
+                  (setq row (1+ headerRow))
                   (foreach bomEntry masterBOM
                       (setq item (itoa (cdr (assoc 'item bomEntry))))
                       (setq desc (cdr (assoc 'description bomEntry)))
@@ -459,10 +580,14 @@
                       (if (not partNum) (setq partNum "N/A"))
 
                       (ByrnePutCell sheet row 1 item)
+                      (ByrneSetCellFormat sheet row 1 nil nil nil :vlax-true)
+
                       (ByrnePutCell sheet row 2 desc)
                       (ByrnePutCell sheet row 3 partNum)
 
                       (setq col 4)
+                      (setq sumArgs "") 
+
                       (foreach lName layoutNames
                           (setq localBOM (cdr (assoc lName layoutBOMs)))
                           (setq qty 0)
@@ -473,25 +598,51 @@
                               )
                           )
                           
-                          ;; Escribir la cantidad
                           (if (> qty 0)
                               (ByrnePutCell sheet row col (itoa qty))
                               (ByrnePutCell sheet row col "0")
                           )
-                          ;; Dejamos la columna col+1 vacía intacta y avanzamos
-                          (setq col (+ col 2))
+                          (ByrneSetCellFormat sheet row col 15 nil nil :vlax-true)
+                          
+                          (setq qtyColLetter (ByrneColToLetter col))
+                          (setq multColLetter (ByrneColToLetter (+ col 2)))
+                          
+                          (ByrneMergeAndCenter sheet row (+ col 1) (+ col 2))
+                          
+                          (setq formulaStr (strcat "=" qtyColLetter (itoa row) "*" multColLetter "$" (itoa headerRow)))
+                          (ByrnePutCell sheet row (+ col 1) formulaStr)
+                          (ByrneSetCellFormat sheet row (+ col 1) nil 5 nil :vlax-true)
+
+                          (setq formulaColLetter (ByrneColToLetter (+ col 1)))
+                          (setq sumArgs (strcat sumArgs formulaColLetter (itoa row) ","))
+
+                          (setq col (+ col 3)) 
                       )
+                      
+                      (if (> (strlen sumArgs) 0)
+                          (setq sumArgs (substr sumArgs 1 (1- (strlen sumArgs))))
+                      )
+
+                      ;; TOTAL Piezas
+                      (setq sumFormula (strcat "=SUMA(" sumArgs ")"))
+                      (ByrnePutCell sheet row col sumFormula)
+                      (ByrneSetCellFormat sheet row col 10 nil nil :vlax-true)
+
+                      ;; TOTAL Precio
+                      (setq priceTotalFormula (strcat "=" (ByrneColToLetter col) (itoa row) "*" (ByrneColToLetter (+ col 1)) (itoa row)))
+                      (ByrnePutCell sheet row (+ col 2) priceTotalFormula)
+                      (ByrneSetCellFormat sheet row (+ col 2) nil nil nil :vlax-true)
+
                       (setq row (1+ row))
                   )
                   
-                  ;; Liberar memoria COM
                   (vlax-release-object sheet)
                   (vlax-release-object wb)
                   (vlax-release-object wbCollection)
                   (vlax-release-object excelApp)
                   (princ "\n¡Exportación a Excel finalizada con éxito!")
               )
-              (princ "\nError: No se pudo iniciar Microsoft Excel. Asegúrate de tenerlo instalado.")
+              (princ "\nError: No se pudo iniciar Microsoft Excel.")
           )
       )
       (princ "\nNo se encontraron componentes validos en los layouts.")

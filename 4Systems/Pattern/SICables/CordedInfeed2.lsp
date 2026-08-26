@@ -1,4 +1,4 @@
-(defun c:CORDPLD (/ oldPlineWid cableEnt endPt)
+(defun c:CORDPLDPAT2 (/ oldPlineWid cableEnt endPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_POWER_INF" "0, 255, 0")
@@ -7,7 +7,7 @@
   (setq oldPlineWid (getvar "PLINEWID"))
 
   ;; Cable de 0.5"
-  (setvar "PLINEWID" 0.5)
+  (setvar "PLINEWID" 2.0)
 
   ;; =========================
   ;; DIBUJAR CABLE
@@ -35,11 +35,11 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "CordedEndConnector"
+    "CordedEndConnectorPat1"
   )
 
   (ByrneInsertBlock
-    "CordedEndConnector"
+    "CordedEndConnectorPat1"
     endPt
   )
 

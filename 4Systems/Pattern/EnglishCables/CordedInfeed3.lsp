@@ -1,4 +1,4 @@
-(defun c:CORDPLD (/ oldPlineWid cableEnt endPt)
+(defun c:CORDPLDPAT3 (/ oldPlineWid cableEnt endPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_POWER_INF" "0, 255, 0")
@@ -35,11 +35,11 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "CordedEndConnector"
+    "CordedEndConnectorPat2"
   )
 
   (ByrneInsertBlock
-    "CordedEndConnector"
+    "CordedEndConnectorPat2"
     endPt
   )
 

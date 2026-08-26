@@ -1,24 +1,32 @@
-(defun c:PLD (/ startPt cableEnt endPt)
+(defun c:PASSTHRUCABLE4 (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_POWER_INF" "0, 255, 0")
+  (ByrneStart "BYRNE_PASSTHRU" "39,118,187")
+
+;; =========================
+  ;; INSERTAR CONECTOR INICIAL
+  ;; =========================
+(setq startPt (getpoint "\nSelecciona el punto de inicio: "))
+   (ByrnePurgeBlock
+    "BLUEJUMPERBEGIN"
+  )
+
+  (ByrneInsertBlock
+    "BLUEJUMPERBEGIN"
+    startPt
+  )
+
 
   ;; =========================
   ;; DIBUJAR CABLE
   ;; =========================
 
-  (setvar "CECOLOR" "RGB: 0, 255, 0")
-  (setvar "CELWEIGHT" 0)
-  
- (setq startPt (getpoint "\nPunto inicial: "))
-
-(command "_.PLINE"
+  (command "_.PLINE"
          startPt
          "_W"
          2.0
          2.0
 )
-
 
   (while (> (getvar "CMDACTIVE") 0)
     (command pause)
@@ -40,19 +48,19 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "BLUEJUMPERFINISH4"
   )
 
   (ByrneInsertBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "BLUEJUMPERFINISH4"
     endPt
   )
 
-  
+  ;;(ByrneAddBOM "BLUE JUMPER" 1)
 
-  ;; Restaurar entorno Byrne
+   ;;Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\nPLD creado correctamente.")
+  (princ "\n PASSTHRU CABLE creado correctamente.")
   (princ)
 )

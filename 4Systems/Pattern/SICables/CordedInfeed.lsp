@@ -1,24 +1,19 @@
-(defun c:PLD (/ startPt cableEnt endPt)
+(defun c:CORDPLDPAT (/ oldPlineWid cableEnt endPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_POWER_INF" "0, 255, 0")
+
+  ;; Guardar ancho actual
+  (setq oldPlineWid (getvar "PLINEWID"))
+
+  ;; Cable de 0.5"
+  (setvar "PLINEWID" 2.0)
 
   ;; =========================
   ;; DIBUJAR CABLE
   ;; =========================
 
-  (setvar "CECOLOR" "RGB: 0, 255, 0")
-  (setvar "CELWEIGHT" 0)
-  
- (setq startPt (getpoint "\nPunto inicial: "))
-
-(command "_.PLINE"
-         startPt
-         "_W"
-         2.0
-         2.0
-)
-
+  (command "_.PLINE")
 
   (while (> (getvar "CMDACTIVE") 0)
     (command pause)
@@ -40,19 +35,22 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "CordedEndConnectorPat"
   )
 
   (ByrneInsertBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "CordedEndConnectorPat"
     endPt
   )
 
-  
+  ;; Restaurar ancho anterior
+  (setvar "PLINEWID" oldPlineWid)
+
+  (ByrneAddBOM "Corded Power Infeed" 1)
 
   ;; Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\nPLD creado correctamente.")
+  (princ "\nCorded PLD creado correctamente.")
   (princ)
 )
