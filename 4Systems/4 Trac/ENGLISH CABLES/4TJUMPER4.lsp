@@ -1,24 +1,32 @@
-(defun c:PLD (/ startPt cableEnt endPt)
+(defun c:BJUMPER4T4 (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_POWER_INF" "0, 255, 0")
+  (ByrneStart "BYRNE_4T_JUMP" "16,86,137")
+
+;; =========================
+  ;; INSERTAR CONECTOR INICIAL
+  ;; =========================
+(setq startPt (getpoint "\nSelecciona el punto de inicio: "))
+   (ByrnePurgeBlock
+    "4T_JUMPER_SIDE_BEGIN4"
+  )
+
+  (ByrneInsertBlock
+    "4T_JUMPER_SIDE_BEGIN4"
+    startPt
+  )
+
 
   ;; =========================
   ;; DIBUJAR CABLE
   ;; =========================
 
-  (setvar "CECOLOR" "RGB: 0, 255, 0")
-  (setvar "CELWEIGHT" 0)
-  
- (setq startPt (getpoint "\nPunto inicial: "))
-
-(command "_.PLINE"
+  (command "_.PLINE"
          startPt
          "_W"
          0.5
          0.5
 )
-
 
   (while (> (getvar "CMDACTIVE") 0)
     (command pause)
@@ -40,19 +48,19 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "4T_JUMPER_SIDE_END"
   )
 
   (ByrneInsertBlock
-    "hardwiredPowerInfeedConnectorEnd_SOURCE"
+    "4T_JUMPER_SIDE_END"
     endPt
   )
 
-  
+  ;;(ByrneAddBOM "BLUE JUMPER" 1)
 
-  ;; Restaurar entorno Byrne
+   ;;Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\nPLD creado correctamente.")
+  (princ "\n4T JUMPER creado correctamente.")
   (princ)
 )

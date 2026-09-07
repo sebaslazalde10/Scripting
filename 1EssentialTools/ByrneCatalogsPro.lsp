@@ -67,6 +67,31 @@
     (symbolBlock . "SYM_BLUEJumper")
     (blockScale . 1.00)
 )
+  
+  (
+    (blockName  . "4T_JUMPER_SIDE_BEGIN2")
+    (description . "XX\" F/F JUMPER")
+    (partNumber . "BE41917-X-X-XX-XX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
+  
+  (
+    (blockName  . "4T_JUMPER_SIDE_BEGIN3")
+    (description . "XX\" F/F JUMPER")
+    (partNumber . "BE41917-X-X-XX-XX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
+  
+  
+  (
+    (blockName  . "4T_JUMPER_SIDE_BEGIN4")
+    (description . "XX\" F/F JUMPER")
+    (partNumber . "BE41917-X-X-XX-XX")
+    (symbolBlock . "SYM_BLUEJumper")
+    (blockScale . 1.00)
+)
 
  (
     (blockName  . "4T_JUMPER_SIDE_BEGIN_REAL_2")
@@ -612,6 +637,15 @@
     (blockScale . 0.06)
 )
   
+  (
+    (blockName  . "DEAN_2_W_IN_SURFACE_TOPVIEW")
+    (description . "DEAN X W IN SURFACE")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "DEAN_2_W_IN_SURFACE_TOPVIEW") 
+    (blockScale . 0.06 )
+)
+
+  
    (
     (blockName  . "DEAN_4_W_IN_SURFACE_2P_2AC_REAL")
     (description . "DEAN Z 4 WINDOW")
@@ -636,6 +670,26 @@
     (symbolBlock . "E2XB_4WIN_REAL")
     (blockScale . 0.06)
 )
+  
+  
+    ;=================================================
+  ;ELLORA
+  ;=================================================
+  
+  
+  (
+    (blockName  . "ELLORA_6WIN_REAL")
+    (description . "ELLORA 6 WINDOW")
+    (partNumber . "XXXX-XXX") 
+    (symbolBlock . "ELLORA_6WIN_REAL")
+    (blockScale . 0.06)
+) 
+  
+  
+  ;=================================================
+  ;ELLORA B
+  ;=================================================
+  
 (
     (blockName  . "ELLORAB_4WIN_REAL")
     (description . "ELLORA B 4 WINDOW")
@@ -670,6 +724,21 @@
     (blockScale . 0.06)
 )
   
+  
+  
+;=================================================
+;ELLORA WELL
+;================================================= 
+  
+ (
+    (blockName  . "ELLORA_WELL")
+    (description . "ELLORA WELL")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "ELLORA_WELL")   
+    (blockScale . 0.03)
+) 
+  
+  
 (
     (blockName  . "DEANHYDRA_3_WINDOW")
     (description . "DEAN HYDRA 3 WINDOW")
@@ -677,6 +746,37 @@
     (symbolBlock . "HYDRA_ICON")   
     (blockScale . 1.00)
 )
+  
+  
+(
+    (blockName  . "HYDRA_SMALL")
+    (description . "HYDRA")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "HYDRA_SMALL")   
+    (blockScale . 0.06)
+)
+  
+  
+  (
+    (blockName  . "KIA_SIDE")
+    (description . "KIA")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "KIA_SIDE")   
+    (blockScale . 0.03)
+)
+  
+  (
+    (blockName  . "KIA_TOP")
+    (description . "KIA")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "KIA_TOP")   
+    (blockScale . 0.03)
+)
+  
+  
+  
+  
+  
   
   
 (
@@ -762,7 +862,19 @@
     (symbolBlock . "MINITAP_KEY_SLOT_2")
     (blockScale . 0.06)
 )
+  
+   (
+    (blockName  . "MINITAP_UM_REAL")
+    (description . "MINITAP UNDER MOUNT")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "MINITAP_UM_REAL")
+    (blockScale . 0.06)
+)
 
+  
+  
+  
+  
 (
     (blockName  . "NACRE")
     (description . "NACRE")
@@ -795,8 +907,39 @@
     (blockScale . 0.0007)
 )
 
+(
+    (blockName  . "NODE_UP")
+    (description . "NODE")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "NODE_UP") 
+    (blockScale . 0.03 )
+)
   
   (
+    (blockName  . "NODE_UP2")
+    (description . "NODE")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "NODE_UP2") 
+    (blockScale . 0.03 )
+)
+  
+  (
+    (blockName  . "NODE_UP3")
+    (description . "NODE")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "NODE_UP3") 
+    (blockScale . 0.06 )
+)
+  
+(
+    (blockName  . "NODE_UP4")
+    (description . "NODE")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "NODE_UP4") 
+    (blockScale . 0.06 )
+)
+
+(
     (blockName  . "NODE_SIDE")
     (description . "NODE")
     (partNumber . "XXXX-XXX")

@@ -1,18 +1,18 @@
-(defun c:NGJUMP3 (/ startPt cableEnt endPt)
+(defun c:BJUMPER4T2 (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
-  (ByrneStart "BYRNE_JUMPER_ORANGE" "242, 103, 34")
+  (ByrneStart "BYRNE_4T_JUMP" "16,86,137")
 
 ;; =========================
   ;; INSERTAR CONECTOR INICIAL
   ;; =========================
 (setq startPt (getpoint "\nSelecciona el punto de inicio: "))
    (ByrnePurgeBlock
-    "newJumperOrangeEndBegin"
+    "4T_JUMPER_SIDE_BEGIN2"
   )
 
   (ByrneInsertBlock
-    "newJumperOrangeEndBegin"
+    "4T_JUMPER_SIDE_BEGIN2"
     startPt
   )
 
@@ -20,12 +20,12 @@
   ;; =========================
   ;; DIBUJAR CABLE
   ;; =========================
-  
+
   (command "_.PLINE"
          startPt
          "_W"
-         2.0
-         2.0
+         0.5
+         0.5
 )
 
   (while (> (getvar "CMDACTIVE") 0)
@@ -48,19 +48,19 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "newJumperOrangeEndEnd"
+    "4T_JUMPER_SIDE_END"
   )
 
   (ByrneInsertBlock
-    "newJumperOrangeEndEnd3"
+    "4T_JUMPER_SIDE_END"
     endPt
   )
 
-  ;;(ByrneAddBOM "COMMERCIAL_NAME" 1)
+  ;;(ByrneAddBOM "BLUE JUMPER" 1)
 
    ;;Restaurar entorno Byrne
   (ByrneEnd)
 
-  (princ "\n JUMPER creado correctamente.")
+  (princ "\n4T JUMPER creado correctamente.")
   (princ)
 )

@@ -1,4 +1,4 @@
-(defun c:NGJUMP (/ startPt cableEnt endPt)
+(defun c:NGJUMPPAT3 (/ startPt cableEnt endPt)
 
   ;; Inicializar entorno Byrne
   (ByrneStart "BYRNE_JUMPER_ORANGE" "242, 103, 34")
@@ -24,8 +24,8 @@
   (command "_.PLINE"
          startPt
          "_W"
-         1.0
-         1.0
+         0.5
+         0.5
 )
 
   (while (> (getvar "CMDACTIVE") 0)
@@ -48,11 +48,11 @@
   ;; =========================
 
   (ByrnePurgeBlock
-    "newJumperOrangeEndEnd"
+    "newJumperOrangeEndEndPat3"
   )
 
   (ByrneInsertBlock
-    "newJumperOrangeEndEnd"
+    "newJumperOrangeEndEndPat3"
     endPt
   )
 
