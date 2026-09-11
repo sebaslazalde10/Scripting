@@ -355,6 +355,15 @@
     (blockScale . 0.06)
 )
   
+  (
+    (blockName  . "DOUBLEBLOCKPHASE3RACEWAY48")
+    (description . "DOUBLE BLOCK RACEWAY 48")
+    (partNumber . "BE52413-X-X-48")
+    (symbolBlock . "DOUBLEBLOCKPHASE3RACEWAY48") 
+    (blockScale . 0.06 )
+)
+
+  
 (
     (blockName  . "C1_RECEPTACLE")
     (description . "DUPLEX RECEPTACLE C1")
@@ -644,6 +653,15 @@
     (symbolBlock . "DEAN_2_W_IN_SURFACE_TOPVIEW") 
     (blockScale . 0.06 )
 )
+  
+  
+   (
+    (blockName  . "DEAN_Z_3_WINDOW_REAL")
+    (description . "DEAN Z 3 WINDOW")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "DEAN_Z_3_WINDOW_REAL") 
+    (blockScale . 0.06 )
+)
 
   
    (
@@ -804,6 +822,14 @@
     (blockScale . 0.06)
 )
 
+  
+  (
+    (blockName  . "GENMHOB2PORT")
+    (description . "MHO B 2 WINDOWS")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "GENMHOB2PORT")
+    (blockScale . 0.06)
+)
   
 (
     (blockName  . "MHO_4_WIN_REAL")
