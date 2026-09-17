@@ -663,6 +663,14 @@
     (blockScale . 0.06 )
 )
 
+
+(
+    (blockName  . "DEAN_Z_3_WINDOW_SIDE_REAL")
+    (description . "DEAN Z 3 WINDOW")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "DEAN_Z_3_WINDOW_SIDE_REAL") 
+    (blockScale . 0.06 )
+)
   
    (
     (blockName  . "DEAN_4_W_IN_SURFACE_2P_2AC_REAL")
