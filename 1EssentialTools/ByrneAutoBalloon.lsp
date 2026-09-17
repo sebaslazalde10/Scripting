@@ -7,6 +7,11 @@
 
 (defun ByrneInsertBalloon (pt item offX offY / acad doc space landingPt pts arr ml cType mBlockName mBlock currentStyle)
     (vl-load-com)
+    
+    ; --- Iniciar entorno con la capa DIMENSIONS ---
+    ; ByrneStart ajusta la capa a DIMENSIONS y guarda el estado previo
+    (ByrneStart "DIMENSIONS" "0, 0, 255") ; Azul brillante para visibilidad
+    
     (setq acad (vlax-get-acad-object))
     (setq doc  (vla-get-ActiveDocument acad))
     (setq space (vla-get-PaperSpace doc))
@@ -37,6 +42,9 @@
         )
     )
     (vla-Update ml)
+    
+    ; --- Restaurar entorno previo ---
+    (ByrneEnd)
 )
 
 (defun c:BYRNEAUTOBALLOON (/ doc viewportObj viewportEname vpId components project balloonData 
