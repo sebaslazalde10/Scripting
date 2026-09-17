@@ -17,7 +17,7 @@
   )
 
   (command "_.-INSERT"
-           "C:/Users/lazaldes/OneDrive - Byrne Electrical Specialists/Documentos/AutoCAD Files/personalLibrary/JumperConnector.dwg"
+           "JumperConnector"
            pause
            1
            1
@@ -80,7 +80,7 @@
   )
 
   (command "_.-INSERT"
-           "C:/Users/lazaldes/OneDrive - Byrne Electrical Specialists/Documentos/AutoCAD Files/personalLibrary/JumperConnector.dwg"
+           "JumperConnector"
            endPt
            1
            1
