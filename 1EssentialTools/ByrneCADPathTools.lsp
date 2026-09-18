@@ -37,7 +37,7 @@
 (defun c:BYRNEPATHS (/ rootFolder prefs currentPaths folderList newPaths addedCount dir)
   
   ;; Ruta absoluta del repositorio local en OneDrive
-  (setq rootFolder "C:\\Users\\ortegaj\\OneDrive - Byrne Electrical Specialists\\Documentos\\personalLibrary") 
+  (setq rootFolder "C:\\Users\\lazaldes\\OneDrive - Byrne Electrical Specialists\\Documentos\\AutoCAD Files\\personalLibrary\\Accessories")
 
   ;; Validar existencia física del directorio antes de proceder
   (if (not (vl-file-directory-p rootFolder))
