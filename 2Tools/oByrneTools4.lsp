@@ -166,7 +166,7 @@
   (prompt "\nRota la terminal final: ")
 
   (ByrneInsertBlock
-    "C:/Users/lazaldes/OneDrive - Byrne Electrical Specialists/Documentos/AutoCAD Files/personalLibrary/IQ 2.0/BlackEndTerminal.dwg"
+    "BlackEndTerminal"
     endPt
   )
 
