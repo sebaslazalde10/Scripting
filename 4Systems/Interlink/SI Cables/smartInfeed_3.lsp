@@ -60,7 +60,7 @@
   (prompt "\nInserta y rota SMART INFEED: ")
 
   (ByrneInsertBlock
-    "C:/Users/lazaldes/OneDrive - Byrne Electrical Specialists/Documentos/AutoCAD Files/personalLibrary/IQ 2.0/SMART_INFEED.dwg"
+    "SMART_INFEED"
     midPt
   )
 
