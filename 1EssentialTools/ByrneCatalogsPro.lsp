@@ -596,6 +596,13 @@
     (symbolBlock . "AXIL_Z_3_WIN")   
     (blockScale . 0.06)
 )
+(
+    (blockName  . "AXIL X_REAL_UP")
+    (description . "AXIL X")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "AXIL X_REAL_UP")
+    (blockScale . 0.06)
+)
 
 
 (
