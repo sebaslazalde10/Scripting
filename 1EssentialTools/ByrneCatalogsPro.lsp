@@ -603,7 +603,13 @@
     (symbolBlock . "AXIL X_REAL_UP")
     (blockScale . 0.06)
 )
-
+(
+    (blockName  . "BURELE")
+    (description . "BURELE")
+    (partNumber . "XXXX-XXX")
+    (symbolBlock . "BURELE")
+    (blockScale . 0.06)
+)
 
 (
     (blockName  . "DEAN")
